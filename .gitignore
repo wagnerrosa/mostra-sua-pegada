@@ -1,2 +1,19 @@
 _refs/
 _prompts/
+_assets/
+
+# Next.js
+.next/
+out/
+node_modules/
+.env*.local
+
+# Public assets (generated from _assets/ via prebuild)
+public/fonts/
+public/img_grade_bg.webp
+public/poweredby_plantongenius.svg
+
+# Misc
+.DS_Store
+*.pem
+npm-debug.log*

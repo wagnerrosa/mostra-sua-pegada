@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'TT Trailers';
+  src:
+    url('/fonts/TT_Trailers_Black.woff2') format('woff2'),
+    url('/fonts/TT_Trailers_Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TT Trailers';
+  src:
+    url('/fonts/TT_Trailers_Bold.woff2') format('woff2'),
+    url('/fonts/TT_Trailers_Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-bg: #efe4ce;
+  --color-surface: #f3f0eb;
+  --color-border: #d9d4cc;
+  --color-black: #000000;
+  --color-green: #a9c8bc;
+  --color-orange: #dcae75;
+  --color-blue: #a1c3d0;
+  --color-purple: #c0bed8;
+  --color-brown: #7e5a45;
+
+  --font-display: 'TT Trailers', sans-serif;
+  --font-text: 'Courier New', Courier, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg);
+  font-family: var(--font-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
