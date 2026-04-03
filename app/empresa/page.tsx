@@ -1,6 +1,7 @@
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import ChatCard from '@/components/layout/ChatCard'
+import ChatShell from '@/components/chat/ChatShell'
 
 export default function EmpresaPage() {
   return (
@@ -27,7 +28,9 @@ export default function EmpresaPage() {
       >
         <Header />
         <main className="flex flex-1 items-center justify-center" style={{ paddingTop: '16px', paddingBottom: '16px' }}>
-          <ChatCard />
+          <ChatCard>
+            <ChatShell />
+          </ChatCard>
         </main>
         <Footer />
       </div>
