@@ -40,6 +40,12 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
   const visible = messages.filter((m) => m.type !== 'typing')
   const lastVisible = visible[visible.length - 1]
 
+  // Find the index of the very last AI message in the entire conversation
+  let lastAiIdx = -1
+  for (let i = visible.length - 1; i >= 0; i--) {
+    if (visible[i].role === 'ai') { lastAiIdx = i; break }
+  }
+
   return (
     <div
       ref={containerRef}
@@ -53,8 +59,9 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
           const sameRoleAsPrev = prev && prev.role === msg.role
           const marginTop = idx === 0 ? '0' : sameRoleAsPrev ? '8px' : '20px'
 
-          // Show avatar only on the FIRST message of each consecutive AI block
-          const showAvatar = msg.role === 'ai' && (!prev || prev.role !== 'ai')
+          // Avatar only on the very last AI message of the entire conversation.
+          // When AI is typing, the TypingIndicator takes the avatar instead.
+          const showAvatar = msg.role === 'ai' && idx === lastAiIdx && !isAiTyping
 
           if (msg.role === 'ai') {
             return (
@@ -77,8 +84,7 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
 
         {isAiTyping && (
           <div style={{ marginTop: lastVisible?.role === 'ai' ? '8px' : '20px' }}>
-            {/* Show avatar on typing indicator only if not following another AI message */}
-            <TypingIndicator showAvatar={lastVisible?.role !== 'ai'} />
+            <TypingIndicator showAvatar />
           </div>
         )}
       </div>

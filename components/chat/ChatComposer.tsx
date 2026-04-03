@@ -11,11 +11,11 @@ import type { ComposerMode } from '@/types/chat'
  *  idle: white circle + 20%-black border; active: green circle + dark outline */
 function IconSend({ active }: { active?: boolean }) {
   return (
-    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+    <svg width="65" height="65" viewBox="0 0 44 44" fill="none" aria-hidden="true">
       <circle
         cx="22" cy="22" r="21.5"
         fill={active ? 'var(--color-green)' : 'white'}
-        stroke={active ? 'black' : 'rgba(0,0,0,0.2)'} strokeWidth="1.2"
+        stroke="rgba(0,0,0,0.2)" strokeWidth="1"
       />
       {/* Arrow body fill */}
       <path
@@ -25,7 +25,7 @@ function IconSend({ active }: { active?: boolean }) {
       {/* Arrow outline + shaft */}
       <path
         d="M16.98 22L14.67 14.47L29.33 22M16.98 22L14.67 29.53L29.33 22M16.98 22H29.33"
-        stroke={active ? '#3E5235' : 'black'}
+        stroke={active ? 'rgba(62,82,53,0.6)' : 'rgba(0,0,0,0.4)'}
         strokeWidth="1.1"
         strokeLinejoin="round"
         strokeLinecap="round"
@@ -38,16 +38,16 @@ function IconSend({ active }: { active?: boolean }) {
  *  idle: white circle + 20%-black border; active (file attached): green circle */
 function IconClip({ active }: { active?: boolean }) {
   return (
-    <svg width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true">
+    <svg width="65" height="65" viewBox="0 0 44 44" fill="none" aria-hidden="true">
       <circle
         cx="22" cy="22" r="21.5"
         fill={active ? 'var(--color-green)' : 'white'}
-        stroke={active ? 'black' : 'rgba(0,0,0,0.2)'} strokeWidth="1.2"
+        stroke="rgba(0,0,0,0.2)" strokeWidth="1"
       />
       <path
         d="M30.017 21.216L22.436 28.796C21.508 29.725 20.248 30.246 18.935 30.246C17.621 30.246 16.362 29.725 15.433 28.796C14.505 27.867 13.983 26.608 13.983 25.294C13.983 23.981 14.505 22.721 15.433 21.793L22.502 14.724C23.121 14.104 23.962 13.755 24.838 13.754C25.714 13.753 26.556 14.1 27.176 14.72C27.796 15.339 28.145 16.179 28.145 17.055C28.146 17.932 27.799 18.772 27.18 19.392L20.094 26.462C19.784 26.771 19.365 26.945 18.927 26.945C18.489 26.945 18.069 26.771 17.76 26.462C17.45 26.152 17.276 25.732 17.276 25.294C17.276 24.857 17.45 24.437 17.76 24.127L24.763 17.132"
-        stroke={active ? 'white' : 'black'}
-        strokeWidth="1.4"
+        stroke={active ? 'white' : 'rgba(0,0,0,0.5)'}
+        strokeWidth="1"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -59,12 +59,12 @@ function IconClip({ active }: { active?: boolean }) {
 function IconSpinner() {
   return (
     <svg
-      width="44" height="44" viewBox="0 0 44 44" fill="none" aria-hidden="true"
+      width="65" height="65" viewBox="0 0 44 44" fill="none" aria-hidden="true"
       style={{ animation: 'spin 1s linear infinite' }}
     >
       <circle
         cx="22" cy="22" r="21.5"
-        fill="var(--color-blue)" stroke="rgba(0,0,0,0.2)" strokeWidth="1.2"
+        fill="var(--color-blue)" stroke="rgba(0,0,0,0.2)" strokeWidth="1"
       />
       <path
         d="M12.322 19.407C13.033 16.755 15.72 15.241 18.43 15.968C21.14 16.694 22.711 19.348 22 22.001"
@@ -92,10 +92,11 @@ function Pill({ inputSlot, buttonSlot, onClick, onDrop, onDragOver }: PillProps)
       style={{
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'var(--color-bg)',
-        borderRadius: '32px',
-        padding: '6px 6px 6px 22px',
-        minHeight: '60px',
+        backgroundColor: 'rgba(239, 228, 206, 0.6)',
+        border: '1px solid rgba(0, 0, 0, 0.2)',
+        borderRadius: '99px',
+        padding: '14px 14px 14px 26px',
+        minHeight: '77px',
         gap: '8px',
         cursor: onClick ? 'pointer' : undefined,
       }}
@@ -121,7 +122,7 @@ const inputStyle: React.CSSProperties = {
 }
 
 const wrapperStyle: React.CSSProperties = {
-  borderTop: '1.5px solid rgba(0, 0, 0, 0.2)',
+  borderTop: 'none',
   padding: '10px 24px 16px',
   backgroundColor: 'var(--color-surface)',
 }
