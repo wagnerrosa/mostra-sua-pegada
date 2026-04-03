@@ -37,8 +37,8 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
     lastCountRef.current = newCount
   }, [messages.length, isAiTyping, scrollToBottom])
 
-  // Filter out internal 'typing' type messages (handled by isAiTyping prop)
   const visible = messages.filter((m) => m.type !== 'typing')
+  const lastVisible = visible[visible.length - 1]
 
   return (
     <div
@@ -50,14 +50,16 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
       <div className="flex flex-col">
         {visible.map((msg, idx) => {
           const prev = visible[idx - 1]
-          // Larger gap when role changes, smaller within the same speaker
           const sameRoleAsPrev = prev && prev.role === msg.role
           const marginTop = idx === 0 ? '0' : sameRoleAsPrev ? '8px' : '20px'
+
+          // Show avatar only on the FIRST message of each consecutive AI block
+          const showAvatar = msg.role === 'ai' && (!prev || prev.role !== 'ai')
 
           if (msg.role === 'ai') {
             return (
               <div key={msg.id} style={{ marginTop }}>
-                <MessageBubbleAI message={msg} />
+                <MessageBubbleAI message={msg} showAvatar={showAvatar} />
               </div>
             )
           }
@@ -74,8 +76,9 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
         })}
 
         {isAiTyping && (
-          <div style={{ marginTop: visible.length > 0 && visible[visible.length - 1]?.role === 'ai' ? '8px' : '20px' }}>
-            <TypingIndicator />
+          <div style={{ marginTop: lastVisible?.role === 'ai' ? '8px' : '20px' }}>
+            {/* Show avatar on typing indicator only if not following another AI message */}
+            <TypingIndicator showAvatar={lastVisible?.role !== 'ai'} />
           </div>
         )}
       </div>

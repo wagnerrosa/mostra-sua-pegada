@@ -6,8 +6,8 @@ export default function MessageBubbleUser({ message }: { message: ChatMessage })
       <div
         style={{
           maxWidth: '72%',
-          backgroundColor: 'var(--color-surface)',
-          border: '1px solid var(--color-border)',
+          backgroundColor: 'var(--color-bg)',
+          border: 'none',
           borderRadius: '12px',
           padding: '10px 16px',
           fontFamily: 'var(--font-text)',

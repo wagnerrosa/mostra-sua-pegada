@@ -9,14 +9,15 @@ export default function EmpresaPage() {
       className="relative"
       style={{ backgroundColor: 'var(--color-bg)', minHeight: '100vh' }}
     >
-      {/* Background perspective grid */}
+      {/* Background perspective grid — exclusion blend, 2300px wide, bottom-anchored */}
       <div
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: "url('/img_grade_bg.webp')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'bottom',
+          backgroundSize: '2300px auto',
+          backgroundPosition: 'bottom center',
           backgroundRepeat: 'no-repeat',
+          opacity: 0.22,
         }}
         aria-hidden="true"
       />
@@ -24,14 +25,20 @@ export default function EmpresaPage() {
       {/* Page layout */}
       <div
         className="relative flex flex-col"
-        style={{ minHeight: '100vh', padding: '24px 16px' }}
+        style={{ minHeight: '100vh' }}
       >
-        <Header />
-        <main className="flex flex-1 items-center justify-center" style={{ paddingTop: '16px', paddingBottom: '16px' }}>
-          <ChatCard>
-            <ChatShell />
-          </ChatCard>
-        </main>
+        {/* Constrained content column */}
+        <div
+          className="flex flex-col flex-1 mx-auto w-full"
+          style={{ maxWidth: '800px', padding: '24px 24px 0' }}
+        >
+          <Header />
+          <main className="flex flex-1 items-center justify-center" style={{ paddingTop: '16px', paddingBottom: '0' }}>
+            <ChatCard>
+              <ChatShell />
+            </ChatCard>
+          </main>
+        </div>
         <Footer />
       </div>
     </div>

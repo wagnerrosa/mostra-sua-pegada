@@ -16,21 +16,27 @@ function renderContent(content: string) {
   })
 }
 
-export default function MessageBubbleAI({ message }: { message: ChatMessage }) {
+interface MessageBubbleAIProps {
+  message: ChatMessage
+  /** Show the "N." avatar — true only for the first message of each AI block */
+  showAvatar?: boolean
+}
+
+export default function MessageBubbleAI({ message, showAvatar = true }: MessageBubbleAIProps) {
   return (
-    <div className="flex items-start" style={{ gap: '10px', maxWidth: '88%' }}>
-      {/* Avatar "N." — TT Trailers Black, anchors to top of first line */}
+    <div className="flex items-start" style={{ gap: '12px', maxWidth: '90%' }}>
+      {/* Avatar slot: always takes up space for alignment; only renders "N." when showAvatar */}
       <div
         className="shrink-0"
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
-          fontSize: '22px',
+          fontSize: '28px',
           lineHeight: 1,
           letterSpacing: '-0.02em',
           color: 'var(--color-black)',
-          paddingTop: '1px',
-          minWidth: '28px',
+          minWidth: '34px',
+          visibility: showAvatar ? 'visible' : 'hidden',
         }}
         aria-hidden="true"
       >
@@ -44,6 +50,7 @@ export default function MessageBubbleAI({ message }: { message: ChatMessage }) {
           fontSize: '14px',
           lineHeight: '1.6',
           color: 'var(--color-black)',
+          paddingTop: '5px',
         }}
       >
         {renderContent(message.content)}

@@ -1,17 +1,22 @@
-export default function TypingIndicator() {
+interface TypingIndicatorProps {
+  showAvatar?: boolean
+}
+
+export default function TypingIndicator({ showAvatar = true }: TypingIndicatorProps) {
   return (
-    <div className="flex items-start gap-3" style={{ maxWidth: '85%' }}>
-      {/* Avatar N. */}
+    <div className="flex items-start" style={{ gap: '12px', maxWidth: '90%' }}>
+      {/* Avatar slot — same width as MessageBubbleAI for alignment */}
       <div
         className="shrink-0"
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
-          fontSize: '20px',
+          fontSize: '28px',
           lineHeight: 1,
-          letterSpacing: '-0.01em',
+          letterSpacing: '-0.02em',
           color: 'var(--color-black)',
-          paddingTop: '2px',
+          minWidth: '34px',
+          visibility: showAvatar ? 'visible' : 'hidden',
         }}
         aria-hidden="true"
       >
@@ -19,7 +24,7 @@ export default function TypingIndicator() {
       </div>
 
       {/* Typing dots */}
-      <div className="flex items-center gap-1" style={{ paddingTop: '6px' }}>
+      <div className="flex items-center gap-1" style={{ paddingTop: '10px' }}>
         {[0, 1, 2].map((i) => (
           <span
             key={i}
