@@ -13,8 +13,8 @@ export default function Footer() {
       <Image
         src="/poweredby_plantongenius.svg"
         alt="Powered by PLANTON|genius"
-        width={180}
-        height={28}
+        width={220}
+        height={30}
         priority={false}
       />
     </footer>

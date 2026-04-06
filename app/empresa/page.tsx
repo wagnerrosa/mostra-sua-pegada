@@ -15,7 +15,7 @@ export default function EmpresaPage() {
         style={{
           backgroundImage: "url('/img_grade_bg.webp')",
           backgroundSize: '2600px auto',
-          backgroundPosition: 'center bottom 80px',
+          backgroundPosition: 'center bottom 85px',
           backgroundRepeat: 'no-repeat',
           opacity: 0.12,
           mixBlendMode: 'exclusion',
