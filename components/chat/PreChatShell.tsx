@@ -80,7 +80,7 @@ export default function PreChatShell({ onSendText, onSelectQuickReply }: PreChat
           style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 900,
-            fontSize: 'clamp(32px, 5vw, 56px)',
+            fontSize: 'clamp(32px, 5vw, 70px)',
             lineHeight: '1.05',
             color: 'var(--color-black)',
             margin: '0 0 16px',

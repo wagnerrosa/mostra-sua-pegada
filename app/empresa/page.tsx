@@ -31,15 +31,36 @@ export default function EmpresaPage() {
         {/* Constrained content column */}
         <div
           className="flex flex-col flex-1 mx-auto w-full page-content"
-          style={{ maxWidth: '1024px', padding: '24px 24px 0' }}
+          style={{ maxWidth: '1024px', padding: '32px 24px 0' }}
         >
           <Header />
           <main
             className="flex flex-1 items-center justify-center"
-            style={{ paddingTop: '16px', paddingBottom: '0' }}
+            style={{ paddingTop: '16px', paddingBottom: '0', position: 'relative' }}
             role="main"
             aria-label="Interface de cadastro Mostra Sua Pegada"
           >
+            {/* ── Badge rotating — partially outside top-right of the card ── */}
+            <div
+              style={{
+                position: 'absolute',
+                top: '-92px',
+                right: '-92px',
+                animation: 'spin 8s linear infinite',
+                zIndex: 10,
+                pointerEvents: 'none',
+              }}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/badge.webp"
+                alt=""
+                aria-hidden="true"
+                width={220}
+                height={220}
+                style={{ display: 'block' }}
+              />
+            </div>
             <ChatCard>
               <ChatShell />
             </ChatCard>

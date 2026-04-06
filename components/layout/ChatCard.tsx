@@ -14,6 +14,7 @@ export default function ChatCard({
         height: 'calc(100vh - 260px)',
         minHeight: '400px',
         overflow: 'hidden',
+        position: 'relative',
       }}
     >
       {children}
