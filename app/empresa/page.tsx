@@ -29,11 +29,16 @@ export default function EmpresaPage() {
       >
         {/* Constrained content column */}
         <div
-          className="flex flex-col flex-1 mx-auto w-full"
+          className="flex flex-col flex-1 mx-auto w-full page-content"
           style={{ maxWidth: '1024px', padding: '24px 24px 0' }}
         >
           <Header />
-          <main className="flex flex-1 items-center justify-center" style={{ paddingTop: '16px', paddingBottom: '0' }}>
+          <main
+            className="flex flex-1 items-center justify-center"
+            style={{ paddingTop: '16px', paddingBottom: '0' }}
+            role="main"
+            aria-label="Interface de cadastro Mostra Sua Pegada"
+          >
             <ChatCard>
               <ChatShell />
             </ChatCard>

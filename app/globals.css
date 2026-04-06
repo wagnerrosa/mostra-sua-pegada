@@ -71,8 +71,24 @@ body {
   }
 }
 
+@keyframes messageFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .typing-dot {
   animation: typingDot 1.4s infinite ease-in-out;
+}
+
+/* Message bubble entry animation */
+.message-enter {
+  animation: messageFadeIn 0.22s ease-out both;
 }
 
 /* Composer input: bold placeholder */
@@ -80,4 +96,82 @@ body {
   font-weight: 700;
   color: var(--color-black);
   opacity: 0.4;
+}
+
+/* Focus visible styles — keyboard navigation */
+.composer-input:focus-visible {
+  outline: none;
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Smooth scroll on message list */
+.message-list-scroll {
+  scroll-behavior: smooth;
+}
+
+/* ── Responsive layout ───────────────────────────────────────────────────── */
+
+/* Mobile: 360px–639px */
+@media (max-width: 639px) {
+  .chat-card {
+    border-radius: 24px !important;
+    height: calc(100dvh - 180px) !important;
+    min-height: 320px !important;
+  }
+
+  .page-content {
+    padding: 16px 12px 0 !important;
+  }
+
+  .header-logo {
+    font-size: 22px !important;
+  }
+
+  .header-tag {
+    font-size: 14px !important;
+  }
+
+  .message-list-inner {
+    padding: 20px 16px 12px !important;
+  }
+
+  .composer-wrapper {
+    padding: 8px 12px 12px !important;
+  }
+
+  .icon-btn svg {
+    width: 52px !important;
+    height: 52px !important;
+  }
+
+  .quick-replies-wrapper {
+    padding: 6px 16px 2px !important;
+  }
+
+  .pill-container {
+    padding: 10px 10px 10px 18px !important;
+    min-height: 64px !important;
+  }
+}
+
+/* Tablet: 640px–1023px */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .chat-card {
+    border-radius: 36px !important;
+    height: calc(100dvh - 220px) !important;
+  }
+
+  .page-content {
+    padding: 20px 20px 0 !important;
+  }
+
+  .icon-btn svg {
+    width: 58px !important;
+    height: 58px !important;
+  }
 }

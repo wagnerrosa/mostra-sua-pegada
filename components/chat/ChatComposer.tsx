@@ -91,6 +91,7 @@ interface PillProps {
 function Pill({ inputSlot, buttonSlot, onClick, onDrop, onDragOver, onDragLeave, highlight }: PillProps) {
   return (
     <div
+      className="pill-container"
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -109,7 +110,7 @@ function Pill({ inputSlot, buttonSlot, onClick, onDrop, onDragOver, onDragLeave,
       onDragLeave={onDragLeave}
     >
       <div style={{ flex: 1 }}>{inputSlot}</div>
-      <div style={{ flexShrink: 0 }}>{buttonSlot}</div>
+      <div className="icon-btn" style={{ flexShrink: 0 }}>{buttonSlot}</div>
     </div>
   )
 }
@@ -131,6 +132,8 @@ const wrapperStyle: React.CSSProperties = {
   backgroundColor: 'var(--color-surface)',
 }
 
+const wrapperClass = 'composer-wrapper'
+
 // ─── Main component ──────────────────────────────────────────────────────────
 
 interface ChatComposerProps {
@@ -151,6 +154,7 @@ export default function ChatComposer({
   const [text, setText] = useState('')
   const [pinValue, setPinValue] = useState('')
   const [isDragOver, setIsDragOver] = useState(false)
+  const [fileError, setFileError] = useState<string | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -158,6 +162,7 @@ export default function ChatComposer({
   useEffect(() => {
     setText('')
     setPinValue('')
+    setFileError(null)
   }, [mode.type])
 
   useEffect(() => {
@@ -189,18 +194,38 @@ export default function ChatComposer({
     }
   }, [handleTextSubmit, handlePinSubmit, mode.type])
 
+  const validateAndSelectFile = useCallback((file: File, accept?: string) => {
+    if (accept) {
+      const accepted = accept.split(',').map((a) => a.trim())
+      const isValid = accepted.some((a) => {
+        if (a.startsWith('.')) return file.name.toLowerCase().endsWith(a.toLowerCase())
+        if (a.endsWith('/*')) return file.type.startsWith(a.slice(0, -2))
+        return file.type === a
+      })
+      if (!isValid) {
+        setFileError(`Tipo de arquivo não suportado. Use: ${accept}`)
+        setTimeout(() => setFileError(null), 4000)
+        return
+      }
+    }
+    setFileError(null)
+    onSelectFile(file)
+  }, [onSelectFile])
+
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) onSelectFile(file)
+    const accept = mode.type === 'file' ? mode.accept : undefined
+    if (file) validateAndSelectFile(file, accept)
     e.target.value = ''
-  }, [onSelectFile])
+  }, [validateAndSelectFile, mode])
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
     setIsDragOver(false)
     const file = e.dataTransfer.files?.[0]
-    if (file) onSelectFile(file)
-  }, [onSelectFile])
+    const accept = mode.type === 'file' ? mode.accept : undefined
+    if (file) validateAndSelectFile(file, accept)
+  }, [validateAndSelectFile, mode])
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -215,7 +240,7 @@ export default function ChatComposer({
 
   if (mode.type === 'disabled') {
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={<input className="composer-input" disabled value="" placeholder={mode.reason} style={{ ...inputStyle, opacity: 0.4 }} readOnly />}
           buttonSlot={<div style={{ opacity: 0.4 }}><IconSend /></div>}
@@ -226,7 +251,7 @@ export default function ChatComposer({
 
   if (mode.type === 'loading') {
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={<input className="composer-input" disabled value="" placeholder={mode.label || 'Processando...'} style={{ ...inputStyle, opacity: 0.4 }} readOnly />}
           buttonSlot={<IconSpinner />}
@@ -237,7 +262,7 @@ export default function ChatComposer({
 
   if (mode.type === 'quick-reply') {
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={<input className="composer-input" disabled value="" placeholder="Selecione uma opção acima" style={{ ...inputStyle, opacity: 0.4 }} readOnly />}
           buttonSlot={<div style={{ opacity: 0.4 }}><IconSend /></div>}
@@ -249,7 +274,7 @@ export default function ChatComposer({
   if (mode.type === 'text') {
     const canSend = text.trim().length > 0
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={
             <input
@@ -281,7 +306,7 @@ export default function ChatComposer({
   if (mode.type === 'text-long') {
     const canSend = text.trim().length > 0
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <div
           style={{
             display: 'flex',
@@ -318,14 +343,29 @@ export default function ChatComposer({
 
   if (mode.type === 'file') {
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <input
           ref={fileInputRef}
           type="file"
           accept={mode.accept}
           onChange={handleFileChange}
           style={{ display: 'none' }}
+          aria-hidden="true"
         />
+        {fileError && (
+          <p
+            role="alert"
+            style={{
+              fontFamily: 'var(--font-text)',
+              fontSize: '12px',
+              color: 'var(--color-brown)',
+              margin: '0 0 6px 26px',
+              fontWeight: 700,
+            }}
+          >
+            {fileError}
+          </p>
+        )}
         <Pill
           onClick={() => fileInputRef.current?.click()}
           onDrop={handleDrop}
@@ -353,7 +393,7 @@ export default function ChatComposer({
 
   if (mode.type === 'file-preview') {
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={
             <span style={{ ...inputStyle, display: 'flex', alignItems: 'center', gap: '6px' }}>
@@ -378,7 +418,7 @@ export default function ChatComposer({
   if (mode.type === 'pin') {
     const canSend = pinValue.length === mode.length
     return (
-      <div style={wrapperStyle}>
+      <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={
             <input

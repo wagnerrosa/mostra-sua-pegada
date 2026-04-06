@@ -17,10 +17,14 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
   const userScrolledRef = useRef(false)
   const lastCountRef = useRef(0)
 
-  const scrollToBottom = useCallback(() => {
+  const scrollToBottom = useCallback((instant?: boolean) => {
     const el = containerRef.current
     if (!el) return
-    el.scrollTop = el.scrollHeight
+    if (instant) {
+      el.scrollTop = el.scrollHeight
+    } else {
+      el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })
+    }
   }, [])
 
   const handleScroll = useCallback(() => {
@@ -33,7 +37,8 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
   useEffect(() => {
     const newCount = messages.length + (isAiTyping ? 1 : 0)
     if (newCount > lastCountRef.current && !userScrolledRef.current) {
-      scrollToBottom()
+      // Small delay so the new DOM element is painted before scrolling
+      requestAnimationFrame(() => scrollToBottom())
     }
     lastCountRef.current = newCount
   }, [messages.length, isAiTyping, scrollToBottom])
@@ -51,10 +56,14 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto"
+      className="flex-1 overflow-y-auto message-list-scroll"
       style={{ padding: '28px 24px 16px' }}
+      // Live region: screen readers announce new messages as they arrive
+      aria-live="polite"
+      aria-label="Histórico da conversa"
+      role="log"
     >
-      <div className="flex flex-col">
+      <div className="flex flex-col message-list-inner">
         {visible.map((msg, idx) => {
           const prev = visible[idx - 1]
           const sameRoleAsPrev = prev && prev.role === msg.role
@@ -66,7 +75,7 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
 
           if (msg.type === 'terms-prompt') {
             return (
-              <div key={msg.id} style={{ marginTop }}>
+              <div key={msg.id} className="message-enter" style={{ marginTop }}>
                 <TermsBlock showAvatar={showAvatar} />
               </div>
             )
@@ -74,7 +83,7 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
 
           if (msg.role === 'ai') {
             return (
-              <div key={msg.id} style={{ marginTop }}>
+              <div key={msg.id} className="message-enter" style={{ marginTop }}>
                 <MessageBubbleAI message={msg} showAvatar={showAvatar} />
               </div>
             )
@@ -82,7 +91,7 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
 
           if (msg.role === 'user') {
             return (
-              <div key={msg.id} style={{ marginTop }}>
+              <div key={msg.id} className="message-enter" style={{ marginTop }}>
                 <MessageBubbleUser message={msg} />
               </div>
             )
@@ -92,7 +101,7 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
         })}
 
         {isAiTyping && (
-          <div style={{ marginTop: lastVisible?.role === 'ai' ? '8px' : '20px' }}>
+          <div className="message-enter" style={{ marginTop: lastVisible?.role === 'ai' ? '8px' : '20px' }}>
             <TypingIndicator showAvatar />
           </div>
         )}

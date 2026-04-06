@@ -5,7 +5,7 @@ export default function ChatCard({
 }) {
   return (
     <div
-      className="w-full"
+      className="w-full chat-card"
       style={{
         maxWidth: '960px',
         backgroundColor: 'var(--color-surface)',

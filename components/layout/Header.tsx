@@ -1,7 +1,8 @@
 export default function Header() {
   return (
-    <header className="flex items-baseline justify-between">
+    <header className="flex items-baseline justify-between" role="banner">
       <span
+        className="header-logo"
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
@@ -14,6 +15,7 @@ export default function Header() {
         Nude.
       </span>
       <span
+        className="header-tag"
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,

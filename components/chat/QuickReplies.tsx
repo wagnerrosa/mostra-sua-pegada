@@ -17,13 +17,16 @@ export default function QuickReplies({ options, onSelect }: QuickRepliesProps) {
 
   return (
     <div
-      className="flex flex-wrap gap-2"
+      className="flex flex-wrap gap-2 quick-replies-wrapper"
       style={{ padding: '6px 24px 2px' }}
+      role="group"
+      aria-label="Opções de resposta rápida"
     >
       {options.map((option) => (
         <button
           key={option.id}
           onClick={() => onSelect(option)}
+          aria-label={option.label}
           style={{
             backgroundColor: intentColors[option.intent],
             color: 'var(--color-black)',
