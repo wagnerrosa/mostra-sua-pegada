@@ -105,10 +105,10 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
 
     // === Eligible path ===
     case 'RESULT_ELIGIBLE':
-      return 'SHOW_TERMS'
+      return event.type === '_AUTO_ADVANCE' ? 'SHOW_TERMS' : step
 
     case 'SHOW_TERMS':
-      return 'TERMS_DECISION'
+      return event.type === '_AUTO_ADVANCE' ? 'TERMS_DECISION' : step
 
     case 'TERMS_DECISION':
       if (event.type === 'QUICK_REPLY_SELECTED') {
@@ -139,7 +139,7 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
 
     // === Custom contract path ===
     case 'RESULT_CUSTOM_CONTRACT':
-      return 'ASK_CUSTOM_CONTRACT_DETAILS'
+      return event.type === '_AUTO_ADVANCE' ? 'ASK_CUSTOM_CONTRACT_DETAILS' : step
 
     case 'ASK_CUSTOM_CONTRACT_DETAILS':
       return event.type === 'USER_TEXT' ? 'ASK_PIN_CUSTOM' : step
@@ -157,7 +157,7 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
 
     // === Not eligible path ===
     case 'RESULT_NOT_ELIGIBLE':
-      return 'ASK_SHARE_CONTACT'
+      return event.type === '_AUTO_ADVANCE' ? 'ASK_SHARE_CONTACT' : step
 
     case 'ASK_SHARE_CONTACT':
       if (event.type === 'QUICK_REPLY_SELECTED') return 'FLOW_COMPLETE_NOT_ELIGIBLE'
@@ -168,7 +168,7 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
 
     // === Ambiguous path ===
     case 'RESULT_AMBIGUOUS':
-      return 'FLOW_COMPLETE_AMBIGUOUS'
+      return event.type === '_AUTO_ADVANCE' ? 'FLOW_COMPLETE_AMBIGUOUS' : step
 
     case 'FLOW_COMPLETE_AMBIGUOUS':
       return step // terminal
@@ -279,16 +279,16 @@ export function chatReducer(state: ChatState, event: FlowEvent): ChatState {
   if (event.type === 'QUICK_REPLY_SELECTED') {
     // Remove the quick-reply-prompt from visible messages
     newMessages = newMessages.filter(m => m.type !== 'quick-reply-prompt')
-    // Add the user's selection as a message
+    // Add the user's selection as a message (display the label, not the value)
     newMessages.push(
       createMessage({
         role: 'user',
         type: 'quick-reply-answer',
-        content: event.value,
+        content: event.label,
         metadata: {
           selectedReply: {
             id: event.value,
-            label: event.value,
+            label: event.label,
             value: event.value,
             intent: event.intent,
           },
@@ -324,9 +324,13 @@ export function chatReducer(state: ChatState, event: FlowEvent): ChatState {
   const nextStep = getNextStep(state.flowStep, event)
   const collectedData = collectData(state, event)
 
-  // Determine composer mode for loading states
+  // Determine composer mode for special states
   let composerMode = state.composerMode
-  if (nextStep === 'VALIDATING_CNPJ' || nextStep === 'CHECKING_SECTOR') {
+
+  // File selected → switch to preview mode so user can confirm or remove
+  if (event.type === 'FILE_SELECTED' && event.file) {
+    composerMode = { type: 'file-preview', file: event.file }
+  } else if (nextStep === 'VALIDATING_CNPJ' || nextStep === 'CHECKING_SECTOR') {
     composerMode = { type: 'loading', label: 'Verificando...' }
   } else if (nextStep === 'DOCUMENT_UPLOADING') {
     composerMode = { type: 'loading', label: 'Enviando...' }

@@ -146,7 +146,7 @@ export interface ChatState {
 export type FlowEvent =
   | { type: 'START_FLOW' }
   | { type: 'USER_TEXT'; value: string }
-  | { type: 'QUICK_REPLY_SELECTED'; value: string; intent: QuickReplyIntent }
+  | { type: 'QUICK_REPLY_SELECTED'; value: string; label: string; intent: QuickReplyIntent }
   | { type: 'FILE_SELECTED'; file: FileAttachment }
   | { type: 'FILE_SUBMITTED' }
   | { type: 'FILE_UPLOAD_COMPLETE' }
@@ -163,6 +163,7 @@ export type FlowEvent =
   | { type: '_AI_TYPING_END'; message: ChatMessage }
   | { type: '_SET_COMPOSER'; mode: ComposerMode }
   | { type: '_ENQUEUE_QUICK_REPLIES'; options: QuickReplyOption[] }
+  | { type: '_AUTO_ADVANCE' }
 
 // === Backend result types ===
 

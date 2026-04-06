@@ -30,7 +30,7 @@ export default function EmpresaPage() {
         {/* Constrained content column */}
         <div
           className="flex flex-col flex-1 mx-auto w-full"
-          style={{ maxWidth: '800px', padding: '24px 24px 0' }}
+          style={{ maxWidth: '1024px', padding: '24px 24px 0' }}
         >
           <Header />
           <main className="flex flex-1 items-center justify-center" style={{ paddingTop: '16px', paddingBottom: '0' }}>

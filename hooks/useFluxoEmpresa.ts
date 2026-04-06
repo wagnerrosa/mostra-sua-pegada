@@ -3,7 +3,6 @@
 import { useReducer, useEffect, useRef, useCallback } from 'react'
 import type {
   FlowStep,
-  FlowEvent,
   QuickReplyOption,
   FileAttachment,
   ChatMessage,
@@ -80,15 +79,6 @@ export function useFluxoEmpresa() {
         return
       }
 
-      // --- Steps that show AI messages and then auto-advance ---
-      // These steps don't wait for user input after messages are shown
-      const autoAdvanceSteps: Partial<Record<FlowStep, FlowEvent>> = {
-        RESULT_ELIGIBLE: { type: 'START_FLOW' }, // triggers -> SHOW_TERMS in reducer... but actually these are auto in reducer
-        RESULT_AMBIGUOUS: { type: 'START_FLOW' },
-        RESULT_NOT_ELIGIBLE: { type: 'START_FLOW' },
-        RESULT_CUSTOM_CONTRACT: { type: 'START_FLOW' },
-      }
-
       const content = flowContent[step]
 
       // Show AI messages for this step (if any)
@@ -107,36 +97,19 @@ export function useFluxoEmpresa() {
         }
       }
 
-      // Auto-advance: RESULT_* steps auto-transition in the reducer
-      // (getNextStep returns next step immediately for these). But since the reducer
-      // doesn't dispatch side effects, we need to process the NEXT step's content here.
-      if (step in autoAdvanceSteps) {
-        const autoNextMap: Partial<Record<FlowStep, FlowStep>> = {
-          RESULT_ELIGIBLE: 'SHOW_TERMS',
-          RESULT_AMBIGUOUS: 'FLOW_COMPLETE_AMBIGUOUS',
-          RESULT_NOT_ELIGIBLE: 'ASK_SHARE_CONTACT',
-          RESULT_CUSTOM_CONTRACT: 'ASK_CUSTOM_CONTRACT_DETAILS',
-        }
-        const nextStep = autoNextMap[step]
-        if (nextStep) {
-          await new Promise(r => setTimeout(r, 400))
-          if (controller.signal.aborted) return
+      // Auto-advance: after showing messages, dispatch _AUTO_ADVANCE to move to next step.
+      // The reducer only transitions on _AUTO_ADVANCE for these steps.
+      const autoAdvanceSet: Set<FlowStep> = new Set([
+        'RESULT_ELIGIBLE', 'SHOW_TERMS',
+        'RESULT_AMBIGUOUS',
+        'RESULT_NOT_ELIGIBLE',
+        'RESULT_CUSTOM_CONTRACT',
+      ])
 
-          // The state machine already transitioned (prevStepRef will catch this),
-          // so we DON'T dispatch again. Instead, process the next step's content
-          // inline here, since the reducer state has already moved to nextStep
-          // via the initial dispatch (START_FLOW event is NOT the right approach).
-          //
-          // Correct approach: RESULT_* steps in the reducer do NOT auto-transition.
-          // The hook is the one that shows content AND triggers the transition
-          // via a specific dispatch. Then the useEffect fires again for the new step.
-          //
-          // Since RESULT_* -> next transition happens in the reducer via getNextStep,
-          // this block is actually never reached (prevStepRef will differ).
-          // This is dead code here; auto-transitions are driven by the useEffect
-          // re-running when state.flowStep changes.
-          void nextStep
-        }
+      if (autoAdvanceSet.has(step)) {
+        await new Promise(r => setTimeout(r, 400))
+        if (controller.signal.aborted) return
+        dispatch({ type: '_AUTO_ADVANCE' })
         return
       }
     }
@@ -167,6 +140,7 @@ export function useFluxoEmpresa() {
     dispatch({
       type: 'QUICK_REPLY_SELECTED',
       value: option.value,
+      label: option.label,
       intent: option.intent,
     })
   }, [])
