@@ -28,7 +28,7 @@ export default function QuickReplies({ options, onSelect }: QuickRepliesProps) {
   return (
     <div
       className="flex flex-wrap gap-2 quick-replies-wrapper"
-      style={{ padding: '6px 24px 2px' }}
+      style={{ padding: '6px 24px 2px', paddingLeft: '70px' }}
       role="group"
       aria-label="Opções de resposta rápida"
     >

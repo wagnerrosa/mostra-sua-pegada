@@ -32,7 +32,7 @@ export default function TermsBlock({ showAvatar = true }: TermsBlockProps) {
       {/* Scrollable terms box */}
       <div
         style={{
-          backgroundColor: 'var(--color-bg)',
+          backgroundColor: 'rgba(239, 228, 206, 0.5)',
           border: '1px solid var(--color-border)',
           borderRadius: '16px',
           padding: '16px 20px',
@@ -43,7 +43,7 @@ export default function TermsBlock({ showAvatar = true }: TermsBlockProps) {
         <div
           style={{
             fontFamily: 'var(--font-text)',
-            fontSize: '13px',
+            fontSize: '14px',
             lineHeight: '1.6',
             color: 'var(--color-black)',
             whiteSpace: 'pre-wrap',
