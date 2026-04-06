@@ -1,12 +1,19 @@
 import type { ChatMessage } from '@/types/chat'
 
-export default function MessageBubbleUser({ message }: { message: ChatMessage }) {
+const bubbleColors = [
+  'var(--color-green)',
+  'var(--color-blue)',
+  'var(--color-orange)',
+  'var(--color-purple)',
+]
+
+export default function MessageBubbleUser({ message, colorIndex = 0 }: { message: ChatMessage; colorIndex?: number }) {
   return (
     <div className="flex justify-end">
       <div
         style={{
           maxWidth: '72%',
-          backgroundColor: 'var(--color-bg)',
+          backgroundColor: bubbleColors[colorIndex % bubbleColors.length],
           border: 'none',
           borderRadius: '12px',
           padding: '10px 16px',

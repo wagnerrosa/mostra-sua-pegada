@@ -43,7 +43,7 @@ export const flowContent: Partial<Record<FlowStep, StepContent>> = {
     ],
     composerMode: {
       type: 'text',
-      placeholder: 'XX.XXX.XXX/XXXX-XX',
+      placeholder: '00.000.000/0000-00',
       validation: CNPJ_REGEX,
     },
   },

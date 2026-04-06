@@ -90,9 +90,10 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
           }
 
           if (msg.role === 'user') {
+            const userIndex = visible.slice(0, idx + 1).filter((m) => m.role === 'user').length - 1
             return (
               <div key={msg.id} className="message-enter" style={{ marginTop }}>
-                <MessageBubbleUser message={msg} />
+                <MessageBubbleUser message={msg} colorIndex={userIndex} />
               </div>
             )
           }

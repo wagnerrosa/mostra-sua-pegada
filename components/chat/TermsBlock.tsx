@@ -29,20 +29,29 @@ export default function TermsBlock({ showAvatar = true }: TermsBlockProps) {
         N.
       </div>
 
-      {/* Scrollable terms text */}
+      {/* Scrollable terms box */}
       <div
         style={{
-          fontFamily: 'var(--font-text)',
-          fontSize: '13px',
-          lineHeight: '1.6',
-          color: 'var(--color-black)',
+          backgroundColor: 'var(--color-bg)',
+          border: '1px solid var(--color-border)',
+          borderRadius: '16px',
+          padding: '16px 20px',
           maxHeight: '280px',
           overflowY: 'auto',
-          whiteSpace: 'pre-wrap',
-          paddingRight: '8px',
         }}
       >
-        {TERMS_TEXT}
+        <div
+          style={{
+            fontFamily: 'var(--font-text)',
+            fontSize: '13px',
+            lineHeight: '1.6',
+            color: 'var(--color-black)',
+            whiteSpace: 'pre-wrap',
+            paddingRight: '4px',
+          }}
+        >
+          {TERMS_TEXT}
+        </div>
       </div>
     </div>
   )
