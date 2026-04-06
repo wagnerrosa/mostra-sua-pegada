@@ -120,6 +120,7 @@ export const flowContent: Partial<Record<FlowStep, StepContent>> = {
   SHOW_TERMS: {
     messages: [
       'Agora só falta um passo importante:\n\nVocê pode revisar os termos de participação no movimento.',
+      '__TERMS_BLOCK__',
       'Tudo certo por aí?',
     ],
     composerMode: { type: 'loading', label: '' },

@@ -68,10 +68,11 @@ export async function simulateAIResponse(
 
     if (signal?.aborted) return
 
-    // Create the AI message
+    // Create the AI message (special marker for terms block)
+    const isTermsBlock = messages[i] === '__TERMS_BLOCK__'
     const message: ChatMessage = createMessage({
       role: 'ai',
-      type: 'text',
+      type: isTermsBlock ? 'terms-prompt' : 'text',
       content: messages[i],
     })
 

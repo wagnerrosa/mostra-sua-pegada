@@ -84,25 +84,29 @@ interface PillProps {
   onClick?: () => void
   onDrop?: (e: React.DragEvent) => void
   onDragOver?: (e: React.DragEvent) => void
+  onDragLeave?: () => void
+  highlight?: boolean
 }
 
-function Pill({ inputSlot, buttonSlot, onClick, onDrop, onDragOver }: PillProps) {
+function Pill({ inputSlot, buttonSlot, onClick, onDrop, onDragOver, onDragLeave, highlight }: PillProps) {
   return (
     <div
       style={{
         display: 'flex',
         alignItems: 'center',
-        backgroundColor: 'rgba(239, 228, 206, 0.6)',
-        border: '1px solid rgba(0, 0, 0, 0.2)',
+        backgroundColor: highlight ? 'rgba(169, 200, 188, 0.25)' : 'rgba(239, 228, 206, 0.6)',
+        border: highlight ? '2px dashed var(--color-green)' : '1px solid rgba(0, 0, 0, 0.2)',
         borderRadius: '99px',
         padding: '14px 14px 14px 26px',
         minHeight: '77px',
         gap: '8px',
         cursor: onClick ? 'pointer' : undefined,
+        transition: 'background-color 0.15s, border 0.15s',
       }}
       onClick={onClick}
       onDrop={onDrop}
       onDragOver={onDragOver}
+      onDragLeave={onDragLeave}
     >
       <div style={{ flex: 1 }}>{inputSlot}</div>
       <div style={{ flexShrink: 0 }}>{buttonSlot}</div>
@@ -146,6 +150,7 @@ export default function ChatComposer({
 }: ChatComposerProps) {
   const [text, setText] = useState('')
   const [pinValue, setPinValue] = useState('')
+  const [isDragOver, setIsDragOver] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -192,12 +197,18 @@ export default function ChatComposer({
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
+    setIsDragOver(false)
     const file = e.dataTransfer.files?.[0]
     if (file) onSelectFile(file)
   }, [onSelectFile])
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault()
+    setIsDragOver(true)
+  }, [])
+
+  const handleDragLeave = useCallback(() => {
+    setIsDragOver(false)
   }, [])
 
   // ─── Modes ────────────────────────────────────────────────────────────────
@@ -319,9 +330,11 @@ export default function ChatComposer({
           onClick={() => fileInputRef.current?.click()}
           onDrop={handleDrop}
           onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          highlight={isDragOver}
           inputSlot={
             <span style={{ ...inputStyle, opacity: 0.55, cursor: 'pointer', whiteSpace: 'pre-line', display: 'block' }}>
-              {mode.label}
+              {isDragOver ? 'Solte o arquivo aqui...' : mode.label}
             </span>
           }
           buttonSlot={
@@ -342,7 +355,12 @@ export default function ChatComposer({
     return (
       <div style={wrapperStyle}>
         <Pill
-          inputSlot={<span style={inputStyle}>{mode.file.name} anexado. Clique para enviar</span>}
+          inputSlot={
+            <span style={{ ...inputStyle, display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <span>{mode.file.name}</span>
+              <span style={{ opacity: 0.5 }}>anexado. Clique para enviar</span>
+            </span>
+          }
           buttonSlot={
             <button
               onClick={onSubmitFile}

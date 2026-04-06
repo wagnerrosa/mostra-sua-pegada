@@ -18,7 +18,7 @@ export default function QuickReplies({ options, onSelect }: QuickRepliesProps) {
   return (
     <div
       className="flex flex-wrap gap-2"
-      style={{ padding: '8px 24px' }}
+      style={{ padding: '6px 24px 2px' }}
     >
       {options.map((option) => (
         <button
@@ -29,14 +29,15 @@ export default function QuickReplies({ options, onSelect }: QuickRepliesProps) {
             color: 'var(--color-black)',
             fontFamily: 'var(--font-text)',
             fontSize: '13px',
+            fontWeight: 700,
             lineHeight: '1.4',
-            padding: '8px 16px',
+            padding: '8px 20px',
             borderRadius: '20px',
-            border: 'none',
+            border: '1px solid rgba(0,0,0,0.08)',
             cursor: 'pointer',
-            transition: 'opacity 0.15s',
+            transition: 'opacity 0.15s, transform 0.1s',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.8' }}
+          onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
           onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}
         >
           {option.label}

@@ -5,6 +5,7 @@ import type { ChatMessage } from '@/types/chat'
 import MessageBubbleAI from './MessageBubbleAI'
 import MessageBubbleUser from './MessageBubbleUser'
 import TypingIndicator from './TypingIndicator'
+import TermsBlock from './TermsBlock'
 
 interface MessageListProps {
   messages: ChatMessage[]
@@ -62,6 +63,14 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
           // Avatar only on the very last AI message of the entire conversation.
           // When AI is typing, the TypingIndicator takes the avatar instead.
           const showAvatar = msg.role === 'ai' && idx === lastAiIdx && !isAiTyping
+
+          if (msg.type === 'terms-prompt') {
+            return (
+              <div key={msg.id} style={{ marginTop }}>
+                <TermsBlock showAvatar={showAvatar} />
+              </div>
+            )
+          }
 
           if (msg.role === 'ai') {
             return (
