@@ -149,10 +149,19 @@ button:focus-visible {
 
   .header-logo {
     font-size: 32px !important;
+    margin-left: 0 !important;
   }
 
-  .header-tag {
-    font-size: 20px !important;
+  .badge-rotating {
+    top: -50px !important;
+    right: -50px !important;
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .badge-rotating img {
+    width: 120px !important;
+    height: 120px !important;
   }
 
   .message-list-inner {
@@ -209,5 +218,17 @@ button:focus-visible {
   .icon-btn svg {
     width: 58px !important;
     height: 58px !important;
+  }
+
+  .badge-rotating {
+    top: -70px !important;
+    right: -70px !important;
+    width: 160px !important;
+    height: 160px !important;
+  }
+
+  .badge-rotating img {
+    width: 160px !important;
+    height: 160px !important;
   }
 }

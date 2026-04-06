@@ -42,6 +42,7 @@ export default function EmpresaPage() {
           >
             {/* ── Badge rotating — partially outside top-right of the card ── */}
             <div
+              className="badge-rotating"
               style={{
                 position: 'absolute',
                 top: '-92px',
