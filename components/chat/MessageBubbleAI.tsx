@@ -47,8 +47,8 @@ export default function MessageBubbleAI({ message, showAvatar = true }: MessageB
       <div
         style={{
           fontFamily: 'var(--font-text)',
-          fontSize: '14px',
-          lineHeight: '1.6',
+          fontSize: '18px',
+          lineHeight: '25px',
           color: 'var(--color-black)',
           paddingTop: '5px',
         }}

@@ -89,8 +89,8 @@ const inputStyle: React.CSSProperties = {
   outline: 'none',
   backgroundColor: 'transparent',
   fontFamily: 'var(--font-text)',
-  fontSize: '14px',
-  lineHeight: '1.6',
+  fontSize: '18px',
+  lineHeight: '25px',
   color: 'var(--color-black)',
 }
 
@@ -210,7 +210,7 @@ export default function ChatComposer({
     return (
       <div className={wrapperClass} style={wrapperStyle}>
         <Pill
-          inputSlot={<input className="composer-input" disabled value="" placeholder={mode.reason} style={{ ...inputStyle, opacity: 0.4 }} readOnly />}
+          inputSlot={<input className="composer-input" disabled value="" placeholder={mode.reason} style={{ ...inputStyle, opacity: 0.6 }} readOnly />}
           buttonSlot={<div style={{ opacity: 0.4 }}><IconSend /></div>}
         />
       </div>
@@ -221,7 +221,7 @@ export default function ChatComposer({
     return (
       <div className={wrapperClass} style={wrapperStyle}>
         <Pill
-          inputSlot={<input className="composer-input" disabled value="" placeholder={mode.label || 'Processando...'} style={{ ...inputStyle, opacity: 0.4 }} readOnly />}
+          inputSlot={<input className="composer-input" disabled value="" placeholder={mode.label || 'Processando...'} style={{ ...inputStyle, opacity: 0.6 }} readOnly />}
           buttonSlot={<IconSpinner />}
         />
       </div>
@@ -232,7 +232,7 @@ export default function ChatComposer({
     return (
       <div className={wrapperClass} style={wrapperStyle}>
         <Pill
-          inputSlot={<input className="composer-input" disabled value="" placeholder="Selecione uma opção acima" style={{ ...inputStyle, opacity: 0.4 }} readOnly />}
+          inputSlot={<input className="composer-input" disabled value="" placeholder="Selecione uma opção acima" style={{ ...inputStyle, opacity: 0.8 }} readOnly />}
           buttonSlot={<div style={{ opacity: 0.4 }}><IconSend /></div>}
         />
       </div>
@@ -366,7 +366,8 @@ export default function ChatComposer({
           inputSlot={
             <span style={{ ...inputStyle, display: 'flex', alignItems: 'center', gap: '6px' }}>
               <span>{mode.file.name}</span>
-              <span style={{ opacity: 0.5 }}>anexado. Clique para enviar</span>
+              <span>anexado.</span>
+              <span style={{ opacity: 0.8, fontWeight: 700 }}>Clique para enviar</span>
             </span>
           }
           buttonSlot={
