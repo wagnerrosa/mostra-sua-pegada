@@ -65,7 +65,6 @@ export default function ChatShell() {
   if (uiPhase === 'pre-chat') {
     return (
       <PreChatShell
-        onSendText={sendText}
         onSelectQuickReply={selectQuickReply}
       />
     )
@@ -81,7 +80,6 @@ export default function ChatShell() {
           style={{ pointerEvents: 'none' }}
         >
           <PreChatShell
-            onSendText={sendText}
             onSelectQuickReply={selectQuickReply}
           />
         </div>
