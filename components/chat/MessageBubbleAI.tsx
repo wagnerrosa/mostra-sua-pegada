@@ -1,3 +1,6 @@
+'use client'
+
+import { useEffect, useState } from 'react'
 import type { ChatMessage } from '@/types/chat'
 
 function renderContent(content: string) {
@@ -23,11 +26,21 @@ interface MessageBubbleAIProps {
 }
 
 export default function MessageBubbleAI({ message, showAvatar = true }: MessageBubbleAIProps) {
+  const [animateAvatar, setAnimateAvatar] = useState(false)
+
+  useEffect(() => {
+    if (!showAvatar) return
+    setAnimateAvatar(false)
+    requestAnimationFrame(() => setAnimateAvatar(true))
+    const timer = window.setTimeout(() => setAnimateAvatar(false), 360)
+    return () => window.clearTimeout(timer)
+  }, [message.id, showAvatar])
+
   return (
     <div className="flex items-start" style={{ gap: '12px', maxWidth: '90%' }}>
       {/* Avatar slot: always takes up space for alignment; only renders "N." when showAvatar */}
       <div
-        className="shrink-0"
+        className={`shrink-0${animateAvatar ? ' ai-avatar-bounce' : ''}`}
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,

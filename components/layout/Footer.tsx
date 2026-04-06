@@ -10,13 +10,20 @@ export default function Footer() {
         marginTop: '0',
       }}
     >
-      <Image
-        src="/poweredby_plantongenius.svg"
-        alt="Powered by PLANTON|genius"
-        width={220}
-        height={30}
-        priority={false}
-      />
+      <a
+        href="https://www.planton.eco.br/"
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label="Abrir site da Planton em nova aba"
+      >
+        <Image
+          src="/poweredby_plantongenius.svg"
+          alt="Powered by PLANTON|genius"
+          width={220}
+          height={30}
+          priority={false}
+        />
+      </a>
     </footer>
   )
 }

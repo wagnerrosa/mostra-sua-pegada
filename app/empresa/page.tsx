@@ -50,6 +50,8 @@ export default function EmpresaPage() {
                 animation: 'spin 8s linear infinite',
                 zIndex: 10,
                 pointerEvents: 'none',
+                transformOrigin: 'center center',
+                willChange: 'transform',
               }}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

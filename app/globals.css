@@ -60,6 +60,42 @@ body {
   to { transform: rotate(360deg); }
 }
 
+@keyframes logoBounce {
+  0% {
+    transform: translateY(0) scale(0.96);
+  }
+  14% {
+    transform: translateY(2px) scale(0.92) rotate(-3deg);
+  }
+  45% {
+    transform: translateY(-3px) scale(1.08) rotate(2deg);
+  }
+  72% {
+    transform: translateY(1px) scale(0.985) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+@keyframes aiAvatarBounce {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-1px) scale(0.96) rotate(-2deg);
+  }
+  55% {
+    transform: translateY(-4px) scale(1.08) rotate(2deg);
+  }
+  78% {
+    transform: translateY(1px) scale(0.985) rotate(-0.75deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
 @keyframes typingDot {
   0%, 80%, 100% {
     opacity: 0.3;
@@ -89,6 +125,23 @@ body {
 /* Message bubble entry animation */
 .message-enter {
   animation: messageFadeIn 0.22s ease-out both;
+}
+
+.header-logo-bounce {
+  display: inline-block;
+  animation: logoBounce 360ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ai-avatar-bounce {
+  display: inline-block;
+  animation: aiAvatarBounce 360ms cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: left center;
+}
+
+.header-logo:focus-visible {
+  outline: 2px solid var(--color-black);
+  outline-offset: 6px;
+  border-radius: 6px;
 }
 
 /* Pre-chat → Chat transition animations */
@@ -157,6 +210,8 @@ button:focus-visible {
     right: -50px !important;
     width: 120px !important;
     height: 120px !important;
+    transform-origin: center center;
+    will-change: transform;
   }
 
   .badge-rotating img {
@@ -225,6 +280,8 @@ button:focus-visible {
     right: -70px !important;
     width: 160px !important;
     height: 160px !important;
+    transform-origin: center center;
+    will-change: transform;
   }
 
   .badge-rotating img {
