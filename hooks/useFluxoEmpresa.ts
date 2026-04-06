@@ -56,7 +56,7 @@ export function useFluxoEmpresa() {
         return
       }
 
-      if (step === 'DOCUMENT_UPLOADING' || step === 'LOGO_UPLOADING') {
+      if (step === 'DOCUMENT_UPLOADING' || step === 'LOGO_UPLOADING' || step === 'LOGO_UPLOADING_CUSTOM') {
         await simulateUploadDelay()
         if (controller.signal.aborted) return
         dispatch({ type: 'FILE_UPLOAD_COMPLETE' })
@@ -71,7 +71,7 @@ export function useFluxoEmpresa() {
         return
       }
 
-      if (step === 'VALIDATING_PIN') {
+      if (step === 'VALIDATING_PIN' || step === 'VALIDATING_PIN_CUSTOM') {
         // PIN code is passed via the event; we re-validate using the mock (always passes unless ?pin=invalid)
         const result = await mockBackend.validatePin('123456')
         if (controller.signal.aborted) return
@@ -100,6 +100,7 @@ export function useFluxoEmpresa() {
       // Auto-advance: after showing messages, dispatch _AUTO_ADVANCE to move to next step.
       // The reducer only transitions on _AUTO_ADVANCE for these steps.
       const autoAdvanceSet: Set<FlowStep> = new Set([
+        'CNPJ_RECADASTRO',
         'RESULT_ELIGIBLE', 'SHOW_TERMS',
         'RESULT_AMBIGUOUS',
         'RESULT_NOT_ELIGIBLE',

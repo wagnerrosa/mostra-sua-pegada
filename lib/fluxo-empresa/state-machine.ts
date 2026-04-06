@@ -49,7 +49,7 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
       if (event.type === 'BACKEND_CNPJ_RESULT') {
         switch (event.status) {
           case 'blocked': return 'CNPJ_BLOCKED'
-          case 'recadastro': return 'ASK_RESPONSAVEL_NOME'
+          case 'recadastro': return 'CNPJ_RECADASTRO'
           case 'new': return 'ASK_RESPONSAVEL_NOME'
         }
       }
@@ -59,7 +59,7 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
       return step // terminal
 
     case 'CNPJ_RECADASTRO':
-      return 'ASK_RESPONSAVEL_NOME'
+      return event.type === '_AUTO_ADVANCE' ? 'ASK_RESPONSAVEL_NOME' : step
 
     case 'ASK_RESPONSAVEL_NOME':
       return event.type === 'USER_TEXT' ? 'ASK_RESPONSAVEL_EMAIL' : step
@@ -145,11 +145,21 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
       return event.type === 'USER_TEXT' ? 'ASK_PIN_CUSTOM' : step
 
     case 'ASK_PIN_CUSTOM':
-      return event.type === 'PIN_SUBMITTED' ? 'VALIDATING_PIN' : step
+      return event.type === 'PIN_SUBMITTED' ? 'VALIDATING_PIN_CUSTOM' : step
+
+    case 'VALIDATING_PIN_CUSTOM':
+      if (event.type === 'PIN_VALID') return 'ASK_LOGO_CUSTOM'
+      if (event.type === 'PIN_INVALID') return 'ASK_PIN_CUSTOM'
+      return step
 
     case 'ASK_LOGO_CUSTOM':
       if (event.type === 'FILE_SELECTED') return step
-      if (event.type === 'FILE_SUBMITTED') return 'FLOW_COMPLETE_CUSTOM'
+      if (event.type === 'FILE_SUBMITTED') return 'LOGO_UPLOADING_CUSTOM'
+      return step
+
+    case 'LOGO_UPLOADING_CUSTOM':
+      if (event.type === 'FILE_UPLOAD_COMPLETE') return 'FLOW_COMPLETE_CUSTOM'
+      if (event.type === 'FILE_UPLOAD_ERROR') return 'ASK_LOGO_CUSTOM'
       return step
 
     case 'FLOW_COMPLETE_CUSTOM':
@@ -336,9 +346,9 @@ export function chatReducer(state: ChatState, event: FlowEvent): ChatState {
     composerMode = { type: 'loading', label: 'Enviando...' }
   } else if (nextStep === 'DOCUMENT_ANALYZING') {
     composerMode = { type: 'loading', label: 'Analisando...' }
-  } else if (nextStep === 'LOGO_UPLOADING') {
+  } else if (nextStep === 'LOGO_UPLOADING' || nextStep === 'LOGO_UPLOADING_CUSTOM') {
     composerMode = { type: 'loading', label: 'Enviando...' }
-  } else if (nextStep === 'VALIDATING_PIN') {
+  } else if (nextStep === 'VALIDATING_PIN' || nextStep === 'VALIDATING_PIN_CUSTOM') {
     composerMode = { type: 'loading', label: 'Verificando...' }
   }
 

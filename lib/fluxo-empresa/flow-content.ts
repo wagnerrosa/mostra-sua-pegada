@@ -76,7 +76,15 @@ export const flowContent: Partial<Record<FlowStep, StepContent>> = {
     composerMode: { type: 'text', placeholder: 'Como conheceu...' },
   },
 
-  // === Ramos de bloqueio ===
+  // === Ramos de bloqueio / recadastro ===
+  CNPJ_RECADASTRO: {
+    messages: [
+      'Encontrei um cadastro com esse CNPJ 👀',
+      'Vamos atualizar seus dados — os anteriores serão substituídos.\n\nVamos lá!',
+    ],
+    composerMode: { type: 'loading', label: '' },
+  },
+
   CNPJ_BLOCKED: {
     messages: [
       'Deixa eu te avisar 👀',
