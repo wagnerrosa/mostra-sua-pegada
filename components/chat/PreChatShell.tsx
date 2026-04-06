@@ -75,6 +75,14 @@ export default function PreChatShell({ onSendText, onSelectQuickReply }: PreChat
         className="flex flex-col justify-center flex-1 pre-chat-content"
         style={{ padding: '40px 48px 24px' }}
       >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginBottom: '36px' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/eye.webp" alt="" aria-hidden="true" width={22} height={22} style={{ display: 'block' }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/planta.webp" alt="" aria-hidden="true" width={18} height={18} style={{ display: 'block' }} />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/eye.webp" alt="" aria-hidden="true" width={22} height={22} style={{ display: 'block' }} />
+        </div>
         <h1
           className="pre-chat-headline"
           style={{
