@@ -71,7 +71,8 @@ function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
       return event.type === 'USER_TEXT' ? 'ASK_COMO_CONHECEU' : step
 
     case 'ASK_COMO_CONHECEU':
-      return event.type === 'USER_TEXT' ? 'CHECKING_SECTOR' : step
+      if (event.type === 'USER_TEXT' || event.type === 'QUICK_REPLY_SELECTED') return 'CHECKING_SECTOR'
+      return step
 
     case 'CHECKING_SECTOR':
       if (event.type === 'BACKEND_SECTOR_RESULT') {
@@ -225,6 +226,9 @@ function collectData(
 
   if (event.type === 'QUICK_REPLY_SELECTED') {
     switch (state.flowStep) {
+      case 'ASK_COMO_CONHECEU':
+        data.comoConheceu = event.value
+        break
       case 'TERMS_DECISION':
         data.aceitouTermos = event.value === 'accept'
         break

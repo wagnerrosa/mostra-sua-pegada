@@ -7,6 +7,14 @@ const intentColors: Record<QuickReplyIntent, string> = {
   action: 'var(--color-purple)',
 }
 
+const rotatingColors = [
+  'var(--color-orange)',
+  'var(--color-green)',
+  'var(--color-blue)',
+  'var(--color-purple)',
+  'var(--color-brown)',
+]
+
 interface QuickRepliesProps {
   options: QuickReplyOption[]
   onSelect: (option: QuickReplyOption) => void
@@ -15,6 +23,8 @@ interface QuickRepliesProps {
 export default function QuickReplies({ options, onSelect }: QuickRepliesProps) {
   if (options.length === 0) return null
 
+  const useRotating = options.length > 2
+
   return (
     <div
       className="flex flex-wrap gap-2 quick-replies-wrapper"
@@ -22,14 +32,16 @@ export default function QuickReplies({ options, onSelect }: QuickRepliesProps) {
       role="group"
       aria-label="Opções de resposta rápida"
     >
-      {options.map((option) => (
+      {options.map((option, i) => (
         <button
           key={option.id}
           onClick={() => onSelect(option)}
           aria-label={option.label}
           style={{
-            backgroundColor: intentColors[option.intent],
-            color: 'var(--color-black)',
+            backgroundColor: useRotating
+              ? rotatingColors[i % rotatingColors.length]
+              : intentColors[option.intent],
+            color: '#ffffff',
             fontFamily: 'var(--font-text)',
             fontSize: '13px',
             fontWeight: 700,

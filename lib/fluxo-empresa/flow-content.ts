@@ -73,7 +73,14 @@ export const flowContent: Partial<Record<FlowStep, StepContent>> = {
     messages: [
       'E como você conheceu o movimento?',
     ],
-    composerMode: { type: 'text', placeholder: 'Como conheceu...' },
+    composerMode: { type: 'quick-reply' },
+    quickReplies: [
+      { id: 'redes-sociais', label: 'Redes sociais', value: 'Redes sociais', intent: 'neutral' },
+      { id: 'indicacao', label: 'Indicação', value: 'Indicação', intent: 'neutral' },
+      { id: 'imprensa', label: 'Imprensa / mídia', value: 'Imprensa / mídia', intent: 'neutral' },
+      { id: 'evento', label: 'Evento', value: 'Evento', intent: 'neutral' },
+      { id: 'outro', label: 'Outro...', value: 'Outro', intent: 'action' },
+    ],
   },
 
   // === Ramos de bloqueio / recadastro ===
