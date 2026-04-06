@@ -25,7 +25,7 @@ export function createMessage(
 export const initialState: ChatState = {
   flowStep: 'PRE_CHAT',
   messages: [],
-  composerMode: { type: 'loading', label: '' },
+  composerMode: { type: 'text', placeholder: 'Escreva sua mensagem...' },
   isAiTyping: false,
   currentFile: null,
   collectedData: {},
