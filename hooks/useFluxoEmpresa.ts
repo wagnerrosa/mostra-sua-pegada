@@ -16,7 +16,6 @@ export function useFluxoEmpresa() {
   const [state, dispatch] = useReducer(chatReducer, initialState)
   const prevStepRef = useRef<FlowStep | null>(null)
   const abortRef = useRef<AbortController | null>(null)
-  const startedRef = useRef(false)
 
   const cancelCurrentSimulation = useCallback(() => {
     if (abortRef.current) {
@@ -37,6 +36,15 @@ export function useFluxoEmpresa() {
 
     const runEffects = async () => {
       const step = state.flowStep
+
+      // PRE_CHAT has no effects — wait for user interaction
+      if (step === 'PRE_CHAT') return
+
+      // WELCOME: dispatch START_FLOW to begin the conversation
+      if (step === 'WELCOME') {
+        dispatch({ type: 'START_FLOW' })
+        return
+      }
 
       // --- Backend / async steps (no AI messages, just call and dispatch) ---
       if (step === 'VALIDATING_CNPJ') {
@@ -122,14 +130,6 @@ export function useFluxoEmpresa() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.flowStep])
-
-  // Auto-start the flow on mount
-  useEffect(() => {
-    if (!startedRef.current) {
-      startedRef.current = true
-      dispatch({ type: 'START_FLOW' })
-    }
-  }, [])
 
   // === Public API ===
 

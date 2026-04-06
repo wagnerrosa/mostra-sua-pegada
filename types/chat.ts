@@ -72,6 +72,8 @@ export type ComposerMode =
 // === Flow Steps ===
 
 export type FlowStep =
+  // Pré-chat (tela inicial antes do fluxo começar)
+  | 'PRE_CHAT'
   // Coleta sequencial
   | 'WELCOME'
   | 'ASK_COMPANY_NAME'

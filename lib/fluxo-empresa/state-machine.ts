@@ -23,7 +23,7 @@ export function createMessage(
 // === Initial State ===
 
 export const initialState: ChatState = {
-  flowStep: 'WELCOME',
+  flowStep: 'PRE_CHAT',
   messages: [],
   composerMode: { type: 'loading', label: '' },
   isAiTyping: false,
@@ -36,6 +36,11 @@ export const initialState: ChatState = {
 
 function getNextStep(step: FlowStep, event: FlowEvent): FlowStep {
   switch (step) {
+    case 'PRE_CHAT':
+      if (event.type === 'USER_TEXT' || event.type === 'QUICK_REPLY_SELECTED')
+        return 'WELCOME'
+      return step
+
     case 'WELCOME':
       return event.type === 'START_FLOW' ? 'ASK_COMPANY_NAME' : step
 
