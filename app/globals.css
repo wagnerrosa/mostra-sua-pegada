@@ -129,11 +129,11 @@ button:focus-visible {
   }
 
   .header-logo {
-    font-size: 22px !important;
+    font-size: 32px !important;
   }
 
   .header-tag {
-    font-size: 14px !important;
+    font-size: 20px !important;
   }
 
   .message-list-inner {

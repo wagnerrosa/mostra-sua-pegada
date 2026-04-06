@@ -6,7 +6,7 @@ export default function Footer() {
       className="w-full flex items-center justify-center"
       style={{
         backgroundColor: '#000000',
-        padding: '24px 24px',
+        padding: '32px 24px',
         marginTop: '0',
       }}
     >

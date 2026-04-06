@@ -31,7 +31,7 @@ export default function MessageBubbleAI({ message, showAvatar = true }: MessageB
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
-          fontSize: '28px',
+          fontSize: '36px',
           lineHeight: 1,
           letterSpacing: '-0.02em',
           color: 'var(--color-black)',

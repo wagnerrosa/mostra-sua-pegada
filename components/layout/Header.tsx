@@ -6,7 +6,7 @@ export default function Header() {
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
-          fontSize: '28px',
+          fontSize: '58px',
           lineHeight: 1,
           letterSpacing: '-0.01em',
           color: 'var(--color-black)',
@@ -19,7 +19,7 @@ export default function Header() {
         style={{
           fontFamily: 'var(--font-display)',
           fontWeight: 900,
-          fontSize: '18px',
+          fontSize: '42px',
           lineHeight: 1,
           letterSpacing: '-0.01em',
           color: 'var(--color-black)',

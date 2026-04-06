@@ -432,7 +432,7 @@ export default function ChatComposer({
               onChange={(e) => setPinValue(e.target.value.replace(/\D/g, ''))}
               onKeyDown={handleKeyDown}
               placeholder={`Código de ${mode.length} dígitos`}
-              style={{ ...inputStyle, letterSpacing: '6px', fontSize: '18px' }}
+              style={{ ...inputStyle, letterSpacing: '6px', fontSize: '14px' }}
             />
           }
           buttonSlot={

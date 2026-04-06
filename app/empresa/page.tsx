@@ -14,10 +14,11 @@ export default function EmpresaPage() {
         className="pointer-events-none absolute inset-0"
         style={{
           backgroundImage: "url('/img_grade_bg.webp')",
-          backgroundSize: '2300px auto',
-          backgroundPosition: 'bottom center',
+          backgroundSize: '2600px auto',
+          backgroundPosition: 'center bottom 80px',
           backgroundRepeat: 'no-repeat',
-          opacity: 0.22,
+          opacity: 0.12,
+          mixBlendMode: 'exclusion',
         }}
         aria-hidden="true"
       />
