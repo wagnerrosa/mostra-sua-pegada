@@ -91,6 +91,25 @@ body {
   animation: messageFadeIn 0.22s ease-out both;
 }
 
+/* Pre-chat → Chat transition animations */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.phase-fade-out {
+  animation: fadeOut 300ms ease-out forwards;
+}
+
+.phase-fade-in {
+  animation: fadeIn 300ms ease-in forwards;
+}
+
 /* Composer input: bold placeholder */
 .composer-input::placeholder {
   font-weight: 700;
@@ -156,6 +175,23 @@ button:focus-visible {
   .pill-container {
     padding: 10px 10px 10px 18px !important;
     min-height: 64px !important;
+  }
+
+  .pre-chat-content {
+    padding: 24px 20px 16px !important;
+  }
+
+  .pre-chat-headline {
+    font-size: 28px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .pre-chat-subtitle {
+    font-size: 14px !important;
+  }
+
+  .pre-chat-qr {
+    padding: 0 16px 10px !important;
   }
 }
 

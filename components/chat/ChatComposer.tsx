@@ -110,6 +110,7 @@ interface ChatComposerProps {
   onSelectFile: (file: File) => void
   onSubmitFile: () => void
   onSubmitPin: (code: string) => void
+  focusTrigger?: number
 }
 
 export default function ChatComposer({
@@ -118,6 +119,7 @@ export default function ChatComposer({
   onSelectFile,
   onSubmitFile,
   onSubmitPin,
+  focusTrigger,
 }: ChatComposerProps) {
   const [text, setText] = useState('')
   const [pinValue, setPinValue] = useState('')
@@ -138,6 +140,15 @@ export default function ChatComposer({
     else if (mode.type === 'text-long' && textareaRef.current) textareaRef.current.focus()
     else if (mode.type === 'pin' && inputRef.current) inputRef.current.focus()
   }, [mode.type])
+
+  useEffect(() => {
+    if (focusTrigger === undefined) return
+    requestAnimationFrame(() => {
+      if (mode.type === 'text-long') textareaRef.current?.focus()
+      else if (mode.type === 'text' || mode.type === 'pin') inputRef.current?.focus()
+    })
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [focusTrigger])
 
   const handleTextSubmit = useCallback(() => {
     const trimmed = text.trim()
