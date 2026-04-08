@@ -20,7 +20,11 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
   const scrollToBottom = useCallback((instant?: boolean) => {
     const el = containerRef.current
     if (!el) return
-    if (instant) {
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (instant || reduceMotion) {
       el.scrollTop = el.scrollHeight
     } else {
       el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })

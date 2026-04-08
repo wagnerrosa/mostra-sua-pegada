@@ -232,6 +232,13 @@ button:focus-visible {
   min-height: 100svh;
 }
 
+/* Touch devices: match the visible viewport height (helps with virtual keyboards). */
+@media (hover: none) {
+  .empresa-page {
+    height: var(--vvh, 100svh);
+  }
+}
+
 /* Desktop: constrain the card to a sensible height so it doesn't fill the whole viewport */
 @media (min-width: 640px) {
   .chat-card {
@@ -273,6 +280,9 @@ button:focus-visible {
 
   .page-content {
     padding: 16px 12px 0 !important;
+    padding-top: max(16px, env(safe-area-inset-top, 0px)) !important;
+    padding-left: max(12px, env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(12px, env(safe-area-inset-right, 0px)) !important;
   }
 
   .header-logo {
@@ -347,6 +357,8 @@ button:focus-visible {
   .footer-shell {
     padding: 20px 16px;
     padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
   }
 }
 
