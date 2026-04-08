@@ -43,7 +43,7 @@ export default function ChatShell() {
 
   // ─── Chat content (always rendered once out of pre-chat) ─────────────────────
   const chatContent = (
-    <div className="flex flex-col" style={{ height: '100%' }}>
+    <div className="flex flex-col flex-1 min-h-0">
       <MessageList messages={messages} isAiTyping={isAiTyping} />
 
       {activeQuickReplies && activeQuickReplies.length > 0 && (
@@ -73,7 +73,7 @@ export default function ChatShell() {
   // ─── Transitioning-out: pre-chat fades out, chat fades in simultaneously ─────
   if (uiPhase === 'transitioning-out') {
     return (
-      <div className="relative" style={{ height: '100%' }}>
+      <div className="relative flex flex-col flex-1 min-h-0">
         {/* Pre-chat: animates from opacity 1 → 0 */}
         <div
           className="phase-fade-out absolute inset-0"
@@ -85,7 +85,7 @@ export default function ChatShell() {
         </div>
 
         {/* Chat: animates from opacity 0 → 1 */}
-        <div className="phase-fade-in" style={{ height: '100%' }}>
+        <div className="phase-fade-in flex flex-col flex-1 min-h-0">
           {chatContent}
         </div>
       </div>

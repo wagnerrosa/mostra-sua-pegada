@@ -3,10 +3,11 @@ import Image from 'next/image'
 export default function Footer() {
   return (
     <footer
-      className="w-full flex items-center justify-center"
+      className="w-full flex items-center justify-center footer-shell"
       style={{
         backgroundColor: '#000000',
         padding: '32px 24px',
+        paddingBottom: 'max(32px, env(safe-area-inset-bottom, 0px))',
         marginTop: '0',
       }}
     >

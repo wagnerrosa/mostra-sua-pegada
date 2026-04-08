@@ -48,11 +48,24 @@ body {
   padding: 0;
 }
 
+/* Safe area custom properties — usadas nos componentes estruturais */
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
 body {
   background-color: var(--color-bg);
   font-family: var(--font-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --bubble-ai-max-width: 90%;
+  --bubble-user-max-width: 72%;
+  --composer-input-font-size: 18px;
+  --composer-input-line-height: 1.45;
+  --terms-block-max-height: 280px;
 }
 
 @keyframes spin {
@@ -138,10 +151,20 @@ body {
   transform-origin: left center;
 }
 
+.header-logo {
+  /* Optical alignment: TT Trailers at 64px has internal left whitespace on "N".
+     Compensate with negative margin so the visual edge aligns with the grid. */
+  margin-left: -25px;
+}
+
 .header-logo:focus-visible {
   outline: 2px solid var(--color-black);
   outline-offset: 6px;
   border-radius: 6px;
+}
+
+.header-logo {
+  transform: translateY(12px);
 }
 
 /* Pre-chat → Chat transition animations */
@@ -186,45 +209,127 @@ button:focus-visible {
   scroll-behavior: smooth;
 }
 
+/* ── Reduced motion ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .message-list-scroll {
+    scroll-behavior: auto;
+  }
+
+  .message-enter,
+  .phase-fade-out,
+  .phase-fade-in,
+  .typing-dot,
+  .header-logo-bounce,
+  .ai-avatar-bounce {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ── Shell flex layout ──────────────────────────────────────────────────── */
+
+/* Outer page shell: flex column filling the viewport with progressive fallback */
+.empresa-page {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* Touch devices: match the visible viewport height (helps with virtual keyboards). */
+@media (hover: none) {
+  .empresa-page {
+    height: var(--vvh, 100svh);
+  }
+}
+
+/* Desktop: constrain the card to a sensible height so it doesn't fill the whole viewport */
+@media (min-width: 640px) {
+  .chat-card {
+    height: calc(100vh - 260px);
+    min-height: 400px;
+    flex: none;
+  }
+}
+
+/* main needs to stretch the card on mobile but center it on desktop.
+   On mobile the card should fill the available flex space (flex: 1).
+   On desktop we keep items-center + the fixed card height above. */
+@media (max-width: 639px) {
+  .empresa-main {
+    align-items: stretch;
+  }
+
+  .chat-card {
+    flex: 1;
+    min-height: 280px;
+  }
+}
+
 /* ── Responsive layout ───────────────────────────────────────────────────── */
 
 /* Mobile: 360px–639px */
 @media (max-width: 639px) {
+  body {
+    --bubble-ai-max-width: 95%;
+    --bubble-user-max-width: 85%;
+    --composer-input-font-size: 16px;
+    --composer-input-line-height: 1.45;
+    --terms-block-max-height: min(40svh, 280px);
+  }
+
   .chat-card {
     border-radius: 24px !important;
-    height: calc(100dvh - 180px) !important;
-    min-height: 320px !important;
   }
 
   .page-content {
     padding: 16px 12px 0 !important;
+    padding-top: max(16px, env(safe-area-inset-top, 0px)) !important;
+    padding-left: max(12px, env(safe-area-inset-left, 0px)) !important;
+    padding-right: max(12px, env(safe-area-inset-right, 0px)) !important;
+  }
+
+  .header-shell {
+    justify-content: center;
   }
 
   .header-logo {
-    font-size: 32px !important;
-    margin-left: 0 !important;
+    font-size: 32px;
+    margin-left: 0;
+    transform: translateY(0);
   }
 
+  /* Portrait >390px: smaller badge, contained by overflow:hidden on main */
   .badge-rotating {
-    top: -50px !important;
-    right: -50px !important;
-    width: 120px !important;
-    height: 120px !important;
-    transform-origin: center center;
-    will-change: transform;
+    top: -50px;
+    right: -50px;
+    width: 120px;
+    height: 120px;
   }
 
   .badge-rotating img {
-    width: 120px !important;
-    height: 120px !important;
+    width: 120px;
+    height: 120px;
+  }
+
+  .empresa-main {
+    overflow: hidden;
+  }
+
+  /* Portrait ≤390px: hide badge entirely */
+  @media (max-width: 390px) {
+    .badge-rotating {
+      display: none;
+    }
   }
 
   .message-list-inner {
-    padding: 20px 16px 12px !important;
+    padding: 16px 14px 10px !important;
   }
 
   .composer-wrapper {
-    padding: 8px 12px 12px !important;
+    padding: 6px 10px 10px;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0px));
   }
 
   .icon-btn svg {
@@ -233,11 +338,11 @@ button:focus-visible {
   }
 
   .quick-replies-wrapper {
-    padding: 6px 16px 2px !important;
+    padding: 4px 14px 2px !important;
   }
 
   .pill-container {
-    padding: 10px 10px 10px 18px !important;
+    padding: 9px 10px 9px 16px !important;
     min-height: 64px !important;
   }
 
@@ -246,8 +351,8 @@ button:focus-visible {
   }
 
   .pre-chat-headline {
-    font-size: 28px !important;
-    margin-bottom: 18px !important;
+    font-size: 26px !important;
+    margin-bottom: 16px !important;
   }
 
   .pre-chat-subtitle {
@@ -257,13 +362,43 @@ button:focus-visible {
   .pre-chat-qr {
     padding: 0 16px 10px !important;
   }
+
+  .footer-shell {
+    padding: 20px 16px;
+    padding-bottom: max(20px, env(safe-area-inset-bottom, 0px));
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+}
+
+/* Pre-chat quick reply buttons — default: clamp width + nowrap */
+.pre-chat-qr-btn {
+  white-space: nowrap;
+  width: clamp(260px, 21vw, 340px);
+  flex: 0 0 auto;
+}
+
+/* Narrow mobile (≤480px): full-width, allow text wrap */
+@media (max-width: 480px) {
+  .pre-chat-qr-btn {
+    width: 100%;
+    white-space: normal;
+    flex: 1 1 100%;
+  }
+}
+
+/* Landscape (any width, short viewport): hide badge to recover vertical space */
+@media (max-height: 500px) {
+  .badge-rotating {
+    display: none;
+  }
 }
 
 /* Tablet: 640px–1023px */
 @media (min-width: 640px) and (max-width: 1023px) {
   .chat-card {
     border-radius: 36px !important;
-    height: calc(100dvh - 220px) !important;
+    height: calc(100dvh - 220px);
   }
 
   .page-content {

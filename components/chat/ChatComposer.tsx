@@ -89,14 +89,15 @@ const inputStyle: React.CSSProperties = {
   outline: 'none',
   backgroundColor: 'transparent',
   fontFamily: 'var(--font-text)',
-  fontSize: '18px',
-  lineHeight: '25px',
+  fontSize: 'var(--composer-input-font-size, 18px)',
+  lineHeight: 'var(--composer-input-line-height, 1.45)',
   color: 'var(--color-black)',
 }
 
 const wrapperStyle: React.CSSProperties = {
   borderTop: 'none',
   padding: '10px 24px 16px',
+  paddingBottom: 'max(16px, env(safe-area-inset-bottom, 0px))',
   backgroundColor: 'var(--color-surface)',
 }
 
@@ -129,6 +130,8 @@ export default function ChatComposer({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const isTouchPrimaryInput = () => window.matchMedia('(hover: none)').matches
+
   useEffect(() => {
     setText('')
     setPinValue('')
@@ -136,6 +139,7 @@ export default function ChatComposer({
   }, [mode.type])
 
   useEffect(() => {
+    if (isTouchPrimaryInput()) return
     if (mode.type === 'text' && inputRef.current) inputRef.current.focus()
     else if (mode.type === 'text-long' && textareaRef.current) textareaRef.current.focus()
     else if (mode.type === 'pin' && inputRef.current) inputRef.current.focus()
@@ -143,6 +147,8 @@ export default function ChatComposer({
 
   useEffect(() => {
     if (focusTrigger === undefined) return
+    // On touch devices, skip autofocus on chat entry to avoid keyboard jank/jump.
+    if (isTouchPrimaryInput()) return
     requestAnimationFrame(() => {
       if (mode.type === 'text-long') textareaRef.current?.focus()
       else if (mode.type === 'text' || mode.type === 'pin') inputRef.current?.focus()
@@ -375,8 +381,19 @@ export default function ChatComposer({
       <div className={wrapperClass} style={wrapperStyle}>
         <Pill
           inputSlot={
-            <span style={{ ...inputStyle, display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span>{mode.file.name}</span>
+            <span style={{ ...inputStyle, display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap', minWidth: 0 }}>
+              <span
+                style={{
+                  minWidth: 0,
+                  maxWidth: 'min(48vw, 320px)',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+                title={mode.file.name}
+              >
+                {mode.file.name}
+              </span>
               <span>anexado.</span>
               <span style={{ opacity: 0.8, fontWeight: 700 }}>Clique para enviar</span>
             </span>

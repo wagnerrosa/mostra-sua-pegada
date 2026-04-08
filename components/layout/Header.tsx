@@ -14,7 +14,7 @@ export default function Header() {
   }
 
   return (
-    <header className="flex items-start justify-between" role="banner">
+    <header className="header-shell flex items-start justify-start" role="banner">
       <button
         type="button"
         className="header-logo"
@@ -31,7 +31,6 @@ export default function Header() {
           lineHeight: 1,
           letterSpacing: '-0.01em',
           color: 'var(--color-black)',
-          marginLeft: '-25px',
           display: 'inline-block',
         }}
       >

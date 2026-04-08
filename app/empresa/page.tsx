@@ -6,8 +6,8 @@ import ChatShell from '@/components/chat/ChatShell'
 export default function EmpresaPage() {
   return (
     <div
-      className="relative"
-      style={{ backgroundColor: 'var(--color-bg)', minHeight: '100vh' }}
+      className="empresa-page relative flex flex-col"
+      style={{ backgroundColor: 'var(--color-bg)' }}
     >
       {/* Background perspective grid — exclusion blend, 2300px wide, bottom-anchored */}
       <div
@@ -23,54 +23,48 @@ export default function EmpresaPage() {
         aria-hidden="true"
       />
 
-      {/* Page layout */}
+      {/* Constrained content column */}
       <div
-        className="relative flex flex-col"
-        style={{ minHeight: '100vh' }}
+        className="relative flex flex-col flex-1 min-h-0 mx-auto w-full page-content"
+        style={{ maxWidth: '1024px', padding: '32px 24px 0' }}
       >
-        {/* Constrained content column */}
-        <div
-          className="flex flex-col flex-1 mx-auto w-full page-content"
-          style={{ maxWidth: '1024px', padding: '32px 24px 0' }}
+        <Header />
+        <main
+          className="empresa-main flex flex-1 min-h-0 items-center justify-center"
+          style={{ paddingTop: '16px', paddingBottom: '0', position: 'relative' }}
+          role="main"
+          aria-label="Interface de cadastro Mostra Sua Pegada"
         >
-          <Header />
-          <main
-            className="flex flex-1 items-center justify-center"
-            style={{ paddingTop: '16px', paddingBottom: '0', position: 'relative' }}
-            role="main"
-            aria-label="Interface de cadastro Mostra Sua Pegada"
+          {/* ── Badge rotating — partially outside top-right of the card ── */}
+          <div
+            className="badge-rotating"
+            style={{
+              position: 'absolute',
+              top: '-92px',
+              right: '-92px',
+              animation: 'spin 8s linear infinite',
+              zIndex: 10,
+              pointerEvents: 'none',
+              transformOrigin: 'center center',
+              willChange: 'transform',
+            }}
           >
-            {/* ── Badge rotating — partially outside top-right of the card ── */}
-            <div
-              className="badge-rotating"
-              style={{
-                position: 'absolute',
-                top: '-92px',
-                right: '-92px',
-                animation: 'spin 8s linear infinite',
-                zIndex: 10,
-                pointerEvents: 'none',
-                transformOrigin: 'center center',
-                willChange: 'transform',
-              }}
-            >
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src="/badge.webp"
-                alt=""
-                aria-hidden="true"
-                width={220}
-                height={220}
-                style={{ display: 'block' }}
-              />
-            </div>
-            <ChatCard>
-              <ChatShell />
-            </ChatCard>
-          </main>
-        </div>
-        <Footer />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/badge.webp"
+              alt=""
+              aria-hidden="true"
+              width={220}
+              height={220}
+              style={{ display: 'block' }}
+            />
+          </div>
+          <ChatCard>
+            <ChatShell />
+          </ChatCard>
+        </main>
       </div>
+      <Footer />
     </div>
   )
 }

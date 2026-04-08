@@ -20,7 +20,11 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
   const scrollToBottom = useCallback((instant?: boolean) => {
     const el = containerRef.current
     if (!el) return
-    if (instant) {
+    const reduceMotion =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+    if (instant || reduceMotion) {
       el.scrollTop = el.scrollHeight
     } else {
       el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' })
@@ -56,8 +60,8 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto message-list-scroll"
-      style={{ padding: '28px 24px 16px' }}
+      className="flex-1 min-h-0 overflow-y-auto message-list-scroll"
+      style={{ padding: '28px 24px 16px', overscrollBehavior: 'contain' }}
       // Live region: screen readers announce new messages as they arrive
       aria-live="polite"
       aria-label="Histórico da conversa"

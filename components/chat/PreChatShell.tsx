@@ -27,9 +27,8 @@ interface PreChatShellProps {
 export default function PreChatShell({ onSelectQuickReply }: PreChatShellProps) {
   return (
     <div
-      className="flex"
+      className="flex flex-1 min-h-0"
       style={{
-        height: '100%',
         padding: '0',
         alignItems: 'center',
         justifyContent: 'flex-start',
@@ -52,7 +51,7 @@ export default function PreChatShell({ onSelectQuickReply }: PreChatShellProps) 
           style={{
             fontFamily: 'var(--font-display)',
             fontWeight: 900,
-            fontSize: 'clamp(32px, 5vw, 70px)',
+            fontSize: 'clamp(30px, 5vw, 70px)',
             lineHeight: '1.05',
             color: 'var(--color-black)',
             margin: '0 0 28px',
@@ -89,6 +88,7 @@ export default function PreChatShell({ onSelectQuickReply }: PreChatShellProps) 
             <button
               key={option.id}
               onClick={() => onSelectQuickReply(option)}
+              className="pre-chat-qr-btn"
               style={{
                 backgroundColor: intentColors[option.intent] ?? 'var(--color-blue)',
                 color: '#ffffff',
@@ -105,9 +105,6 @@ export default function PreChatShell({ onSelectQuickReply }: PreChatShellProps) 
                 alignItems: 'center',
                 justifyContent: 'center',
                 textAlign: 'center',
-                whiteSpace: 'nowrap',
-                width: 'clamp(260px, 21vw, 340px)',
-                flex: '0 0 auto',
               }}
               onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.85' }}
               onMouseLeave={(e) => { e.currentTarget.style.opacity = '1' }}

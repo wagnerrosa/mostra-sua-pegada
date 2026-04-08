@@ -31,13 +31,15 @@ export default function TermsBlock({ showAvatar = true }: TermsBlockProps) {
 
       {/* Scrollable terms box */}
       <div
+        className="terms-block-scroll"
         style={{
           backgroundColor: 'rgba(239, 228, 206, 0.5)',
           border: '1px solid var(--color-border)',
           borderRadius: '16px',
           padding: '16px 20px',
-          maxHeight: '280px',
+          maxHeight: 'var(--terms-block-max-height, 280px)',
           overflowY: 'auto',
+          overscrollBehavior: 'contain',
         }}
       >
         <div
