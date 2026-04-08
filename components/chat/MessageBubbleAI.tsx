@@ -37,7 +37,7 @@ export default function MessageBubbleAI({ message, showAvatar = true }: MessageB
   }, [message.id, showAvatar])
 
   return (
-    <div className="flex items-start" style={{ gap: '12px', maxWidth: '90%' }}>
+    <div className="flex items-start" style={{ gap: '12px', maxWidth: 'var(--bubble-ai-max-width, 90%)' }}>
       {/* Avatar slot: always takes up space for alignment; only renders "N." when showAvatar */}
       <div
         className={`shrink-0${animateAvatar ? ' ai-avatar-bounce' : ''}`}
@@ -58,10 +58,11 @@ export default function MessageBubbleAI({ message, showAvatar = true }: MessageB
 
       {/* Message text */}
       <div
+        className="chat-body-text"
         style={{
           fontFamily: 'var(--font-text)',
-          fontSize: '18px',
-          lineHeight: '25px',
+          fontSize: 'clamp(15px, 3.8vw, 18px)',
+          lineHeight: '1.45',
           color: 'var(--color-black)',
           paddingTop: '5px',
         }}
