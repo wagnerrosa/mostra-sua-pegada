@@ -18,7 +18,7 @@ export default function Footer() {
         aria-label="Abrir site da Planton em nova aba"
       >
         <Image
-          src="/poweredby_plantongenius.svg"
+          src="/poweredby_plantongenius_v2.svg"
           alt="Powered by PLANTON|genius"
           width={220}
           height={30}

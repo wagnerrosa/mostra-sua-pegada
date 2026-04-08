@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prebuild": "mkdir -p public/fonts && cp _assets/fonts/TT_Trailers_Black.woff2 public/fonts/ && cp _assets/fonts/TT_Trailers_Black.woff public/fonts/ && cp _assets/fonts/TT_Trailers_Bold.woff2 public/fonts/ && cp _assets/fonts/TT_Trailers_Bold.woff public/fonts/ && cp _assets/img_grade_bg.webp public/img_grade_bg.webp && cp _assets/poweredby_plantongenius.svg public/poweredby_plantongenius.svg",
+    "prebuild": "mkdir -p public/fonts && cp _assets/fonts/TT_Trailers_Black.woff2 public/fonts/ && cp _assets/fonts/TT_Trailers_Black.woff public/fonts/ && cp _assets/fonts/TT_Trailers_Bold.woff2 public/fonts/ && cp _assets/fonts/TT_Trailers_Bold.woff public/fonts/ && cp _assets/img_grade_bg.webp public/img_grade_bg.webp && cp _assets/poweredby_plantongenius_v2.svg public/poweredby_plantongenius_v2.svg",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

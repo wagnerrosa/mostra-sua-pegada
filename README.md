@@ -1,6 +1,8 @@
 # Mostra Sua Pegada
 
-Interface conversacional com IA para o cadastro de empresas no programa **Mostra Sua Pegada**, iniciativa da **Nude** voltada à transparência da pegada de carbono de produtos.
+[🇧🇷 Português](./README.md) | [🇺🇸 English](./README_en.md)
+
+Interface conversacional para cadastro de empresas no programa Mostra Sua Pegada, iniciativa da Nude voltada à transparência da pegada de carbono de produtos. O fluxo `/empresa` cobre o onboarding de Empresas Participantes.
 
 Este projeto transforma um processo tradicionalmente orientado por formulários em uma experiência guiada por conversa, com foco em reduzir fricção, aumentar clareza e tornar o onboarding mais acolhedor em dispositivos móveis. Neste repositório, o foco principal está no fluxo `/empresa`, voltado para **Empresas Participantes**.
 
@@ -17,7 +19,7 @@ No contexto do programa, a plataforma precisa permitir que empresas:
 - avancem por etapas de elegibilidade, aceite de termos, confirmação por PIN e envio de marca;
 - sejam encaminhadas corretamente em cenários alternativos, como bloqueio de CNPJ, setor controverso, documento ambíguo ou não elegível.
 
-O diferencial central está na escolha de produto: em vez de um formulário longo e rígido, o cadastro acontece por uma **interface conversacional com IA**, mais próxima de uma troca guiada do que de um checklist burocrático.
+O cadastro é realizado por meio de uma interface conversacional, em vez de formulário tradicional, com etapas progressivas, validações e ramificações explícitas.
 
 ## Demonstração
 
@@ -36,23 +38,10 @@ O fluxo inclui:
 - ramificações explícitas para elegibilidade, revisão manual e não elegibilidade;
 - quick replies, upload de arquivo, PIN e encerramento do fluxo.
 
-Sugestões de mídia para este README:
-
-- Inserir um GIF curto mostrando `pré-chat -> chat -> primeira resposta`.
-- Inserir um print da etapa com **Quick Replies** para evidenciar redução de fricção.
-- Inserir um print da etapa de **upload e análise de documento**.
-- Inserir um print mobile da experiência completa para destacar o cuidado com viewport, teclado e safe areas.
-
-Exemplos de referências já disponíveis no repositório:
-
-- `_refs/Tela_Inicio.png`
-- `_refs/Tela_QuickReply.png`
-- `_refs/Tela_Enviar_Arquivo.png`
-- `_refs/Quick_Replies.png`
 
 ## Conceito do Produto
 
-Escolher chat em vez de formulário não foi uma decisão estética. Foi uma decisão de produto.
+O fluxo foi implementado como interface conversacional, substituindo o modelo tradicional de formulário.
 
 Em um fluxo com múltiplas etapas, validações, exceções e linguagem potencialmente técnica, o modelo conversacional oferece vantagens claras:
 
@@ -61,8 +50,6 @@ Em um fluxo com múltiplas etapas, validações, exceções e linguagem potencia
 - cria sensação de progresso contínuo;
 - permite explicar contexto no momento certo, em vez de antecipar tudo de uma vez;
 - aproxima o tom da experiência da marca Nude, que é mais humana, acessível e direta.
-
-As **Quick Replies** reforçam esse desenho ao reduzir digitação desnecessária e acelerar decisões simples, especialmente em mobile.
 
 ## Arquitetura
 
@@ -106,11 +93,11 @@ Infra de simulação
 
 ### 1. State machine como source of truth
 
-O fluxo é modelado com estados explícitos e transições determinísticas. Isso evita que componentes decidam “o que vem depois”, o que costuma espalhar regra de negócio por toda a aplicação.
+O fluxo é modelado com estados explícitos e transições determinísticas.
 
 ### 2. Conteúdo desacoplado da UI
 
-As mensagens da IA ficam centralizadas em `flow-content.ts`, a partir das referências de produto e UX do projeto. Na prática, isso permite iterar tom de voz e conteúdo sem misturar copy com renderização.
+As mensagens da IA ficam centralizadas em `flow-content.ts`, a partir das referências de produto e UX do projeto. Permite iterar conteúdo sem alterar a UI.
 
 ### 3. `ComposerMode` como discriminated union
 
@@ -129,7 +116,7 @@ Esse contrato torna a UI mais previsível e reduz condicionais frágeis dentro d
 
 ### 4. Reducer puro + efeitos fora do reducer
 
-O reducer faz apenas transição de estado e coleta de dados. Delays, simulação de digitação, upload e chamadas assíncronas ficam fora dele, no hook. Isso melhora isolamento, leitura e testabilidade.
+O reducer faz apenas transição de estado e coleta de dados. Efeitos assíncronos são tratados no hook.
 
 ### 5. Mock backend + AI simulator
 
@@ -164,16 +151,11 @@ Além da arquitetura, o projeto carrega decisões fortes de experiência.
 
 ### Quick Replies para reduzir fricção
 
-As quick replies não são apenas botões visuais. Elas fazem parte da estratégia de conversão do fluxo:
-
-- reduzem esforço de digitação;
-- aceleram respostas de baixa complexidade;
-- ajudam a manter ritmo de conversa;
-- funcionam especialmente bem em telas pequenas.
+Quick Replies reduzem digitação, aceleram decisões simples e mantêm o ritmo da conversa, especialmente em mobile.
 
 ### Tom de voz alinhado com a marca
 
-O conteúdo foi escrito com linguagem acessível, direta e acolhedora, incluindo o uso pontual de emojis para tornar a interação mais leve sem perder clareza.
+Conteúdo com linguagem acessível e direta, com uso pontual de emojis.
 
 ### Aderência ao MIV da Nude
 
@@ -186,7 +168,7 @@ O visual respeita o universo da marca:
 
 ### Separação entre UX e regra de negócio
 
-Um ponto de maturidade importante neste projeto é que decisões de UX não foram tratadas como detalhes superficiais. O fluxo conversa com regras reais de elegibilidade, validação e exceção, mas faz isso de maneira legível para a pessoa usuária.
+O fluxo integra regras de elegibilidade e validação com uma apresentação legível para o usuário.
 
 ## Stack utilizada
 
@@ -253,29 +235,12 @@ Antes do build e do ambiente de desenvolvimento, o projeto copia assets de `_ass
 
 Isso ajuda a demonstrar e validar caminhos alternativos sem depender de integrações reais.
 
-## Aprendizados e desafios
+## Considerações técnicas
 
-Este projeto é interessante porque o desafio não está apenas em “fazer um chat funcionar”, mas em equilibrar:
-
-- clareza de produto;
-- tom de marca;
-- previsibilidade de fluxo;
-- compatibilidade mobile real;
-- escalabilidade para múltiplas jornadas.
-
-### Desafios tratados de forma relevante
-
-- modelar um fluxo conversacional com muitos ramos sem deixar a lógica vazar para a UI;
-- criar uma base que permita trocar conteúdo e evoluir personas sem refatorar toda a arquitetura;
-- lidar com viewport dinâmica, teclado virtual e safe areas em mobile;
-- transformar regras de validação e elegibilidade em uma experiência mais humana do que burocrática.
-
-### O que o projeto mostra em termos de maturidade
-
-- preocupação com produto e negócio, e não só com implementação;
-- arquitetura pensada para manutenção e expansão;
-- atenção a UX mobile real, incluindo edge cases de navegador;
-- clareza de separação entre conteúdo, fluxo e apresentação.
+- Fluxo conversacional com múltiplas ramificações modelado por state machine.
+- Conteúdo desacoplado da UI para facilitar manutenção e evolução.
+- Tratamento de viewport dinâmica, teclado virtual e safe areas em mobile.
+- Estrutura preparada para expansão de jornadas adicionais.
 
 ## Próximos passos
 
@@ -314,6 +279,4 @@ types/
 
 ## Considerações finais
 
-Mais do que uma interface de cadastro, este projeto explora como uma experiência conversacional pode servir a um fluxo regulado, com regras reais de negócio, sem abrir mão de clareza, marca e usabilidade.
-
-É um bom exemplo de frontend orientado a produto: a tecnologia existe para sustentar uma decisão de experiência, e não o contrário.
+Implementação de interface conversacional para onboarding com regras de negócio explícitas, priorizando clareza de fluxo, consistência visual e estabilidade em dispositivos móveis.
