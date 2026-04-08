@@ -65,6 +65,7 @@ body {
   --bubble-user-max-width: 72%;
   --composer-input-font-size: 18px;
   --composer-input-line-height: 1.45;
+  --terms-block-max-height: 280px;
 }
 
 @keyframes spin {
@@ -217,6 +218,7 @@ button:focus-visible {
   .header-logo-bounce,
   .ai-avatar-bounce {
     animation: none !important;
+    transition: none !important;
     opacity: 1 !important;
     transform: none !important;
   }
@@ -262,6 +264,7 @@ button:focus-visible {
     --bubble-user-max-width: 85%;
     --composer-input-font-size: 16px;
     --composer-input-line-height: 1.45;
+    --terms-block-max-height: min(40svh, 280px);
   }
 
   .chat-card {

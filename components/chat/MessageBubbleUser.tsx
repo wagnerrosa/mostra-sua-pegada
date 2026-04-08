@@ -22,8 +22,6 @@ export default function MessageBubbleUser({ message, colorIndex = 0 }: { message
           fontSize: 'clamp(15px, 3.8vw, 18px)',
           lineHeight: '1.45',
           color: 'var(--color-black)',
-          maxHeight: '200px',
-          overflowY: 'auto',
           whiteSpace: 'pre-wrap',
           wordBreak: 'break-word',
         }}

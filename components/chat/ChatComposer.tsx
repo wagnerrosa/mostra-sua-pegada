@@ -130,6 +130,8 @@ export default function ChatComposer({
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const isTouchPrimaryInput = () => window.matchMedia('(hover: none)').matches
+
   useEffect(() => {
     setText('')
     setPinValue('')
@@ -137,6 +139,7 @@ export default function ChatComposer({
   }, [mode.type])
 
   useEffect(() => {
+    if (isTouchPrimaryInput()) return
     if (mode.type === 'text' && inputRef.current) inputRef.current.focus()
     else if (mode.type === 'text-long' && textareaRef.current) textareaRef.current.focus()
     else if (mode.type === 'pin' && inputRef.current) inputRef.current.focus()
@@ -144,10 +147,8 @@ export default function ChatComposer({
 
   useEffect(() => {
     if (focusTrigger === undefined) return
-    // On touch devices, skip autofocus on chat entry to avoid keyboard jank/jump (iOS Safari).
-    // Detection via pointer capability, not user-agent sniffing.
-    const isTouchPrimary = window.matchMedia('(hover: none)').matches
-    if (isTouchPrimary) return
+    // On touch devices, skip autofocus on chat entry to avoid keyboard jank/jump.
+    if (isTouchPrimaryInput()) return
     requestAnimationFrame(() => {
       if (mode.type === 'text-long') textareaRef.current?.focus()
       else if (mode.type === 'text' || mode.type === 'pin') inputRef.current?.focus()
