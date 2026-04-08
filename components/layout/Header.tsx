@@ -31,7 +31,6 @@ export default function Header() {
           lineHeight: 1,
           letterSpacing: '-0.01em',
           color: 'var(--color-black)',
-          marginLeft: '-25px',
           display: 'inline-block',
         }}
       >

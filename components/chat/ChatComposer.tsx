@@ -97,6 +97,7 @@ const inputStyle: React.CSSProperties = {
 const wrapperStyle: React.CSSProperties = {
   borderTop: 'none',
   padding: '10px 24px 16px',
+  paddingBottom: 'max(16px, env(safe-area-inset-bottom, 0px))',
   backgroundColor: 'var(--color-surface)',
 }
 
@@ -143,6 +144,10 @@ export default function ChatComposer({
 
   useEffect(() => {
     if (focusTrigger === undefined) return
+    // On touch devices, skip autofocus on chat entry to avoid keyboard jank/jump (iOS Safari).
+    // Detection via pointer capability, not user-agent sniffing.
+    const isTouchPrimary = window.matchMedia('(hover: none)').matches
+    if (isTouchPrimary) return
     requestAnimationFrame(() => {
       if (mode.type === 'text-long') textareaRef.current?.focus()
       else if (mode.type === 'text' || mode.type === 'pin') inputRef.current?.focus()

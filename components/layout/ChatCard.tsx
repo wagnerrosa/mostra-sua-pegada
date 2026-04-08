@@ -5,14 +5,12 @@ export default function ChatCard({
 }) {
   return (
     <div
-      className="w-full chat-card"
+      className="w-full flex flex-col min-h-0 chat-card"
       style={{
         maxWidth: '960px',
         backgroundColor: 'var(--color-surface)',
         border: '1px solid rgba(0, 0, 0, 0.2)',
         borderRadius: '48px',
-        height: 'calc(100vh - 260px)',
-        minHeight: '400px',
         overflow: 'hidden',
         position: 'relative',
       }}

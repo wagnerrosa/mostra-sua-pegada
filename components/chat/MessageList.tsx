@@ -56,7 +56,7 @@ export default function MessageList({ messages, isAiTyping }: MessageListProps) 
     <div
       ref={containerRef}
       onScroll={handleScroll}
-      className="flex-1 overflow-y-auto message-list-scroll"
+      className="flex-1 min-h-0 overflow-y-auto message-list-scroll"
       style={{ padding: '28px 24px 16px' }}
       // Live region: screen readers announce new messages as they arrive
       aria-live="polite"
