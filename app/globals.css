@@ -163,6 +163,10 @@ body {
   border-radius: 6px;
 }
 
+.header-logo {
+  transform: translateY(12px);
+}
+
 /* Pre-chat → Chat transition animations */
 @keyframes fadeOut {
   from { opacity: 1; }
@@ -285,9 +289,14 @@ button:focus-visible {
     padding-right: max(12px, env(safe-area-inset-right, 0px)) !important;
   }
 
+  .header-shell {
+    justify-content: center;
+  }
+
   .header-logo {
     font-size: 32px;
     margin-left: 0;
+    transform: translateY(0);
   }
 
   /* Portrait >390px: smaller badge, contained by overflow:hidden on main */
